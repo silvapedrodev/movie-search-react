@@ -1,14 +1,22 @@
-const BASE_URL = "https://api.themoviedb.org/3"
-
 export async function tmdbFetch(path: string) {
-  const res = await fetch(`${BASE_URL}${path}`, {
-    headers: {
-      Authorization: `Bearer ${process.env.TMDB_ACCESS_TOKEN}`,
-      accept: "application/json",
-    },
-  })
+  try {
+    const res = await fetch(`${process.env.TMDB_API_URL}${path}`, {
+      headers: {
+        Authorization: `Bearer ${process.env.TMDB_ACCESS_TOKEN}`,
+        accept: "application/json",
+      },
+    })
 
-  return res.json()
+    if (!res.ok) {
+      console.error(`TMDB fetch failed: ${res.status} ${res.statusText}`)
+      return null
+    }
+
+    return res.json()
+  } catch (error) {
+    console.error("TMDB fetch error:", error)
+    return null
+  }
 }
 
 export async function getPopular(
