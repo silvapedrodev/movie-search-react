@@ -6,7 +6,7 @@ import { TrendingSection } from "@/components/home/trending-section";
 
 export default function Page() {
   return (
-    <main className="px-3 bg-[linear-gradient(249deg,#030A1B_68.64%,#9747FF_206.69%)]">
+    <main className="px-4 bg-[linear-gradient(249deg,#030A1B_68.64%,#9747FF_206.69%)]">
       <div>
         Carrossel
       </div>
