@@ -6,6 +6,7 @@
 }
 
 @theme inline {
+  --color-purple-550: #9747FF;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-lato);

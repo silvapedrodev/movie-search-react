@@ -4,12 +4,15 @@ import { ReactNode, useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 import { SearchInput } from "@/components/ui/search-input"
 import { SearchResultCard } from "@/components/home/search-result-card"
+import { HeroCarousel } from "./hero-carousel"
+import { MovieOrSerie } from "@/types/tmdb"
 
 type Props = {
   children: ReactNode
+  heroData: MovieOrSerie[]
 }
 
-export const Home = ({ children }: Props) => {
+export const HomeContent = ({ children, heroData }: Props) => {
   const [searchValue, setSearchValue] = useState("")
 
   const { data, isLoading } = useQuery({
@@ -23,6 +26,7 @@ export const Home = ({ children }: Props) => {
 
   return (
     <>
+      <HeroCarousel data={heroData} />
       <SearchInput onSearch={setSearchValue} />
 
       {isLoading && <p>Carregando...</p>}

@@ -62,7 +62,7 @@ export const HorizontalList = ({ title, items }: Props) => {
   }
 
   return (
-    <section className="my-8 relative">
+    <section className="my-8 px-4 relative">
       <h2 className="text-xl font-semibold mb-4">{title}</h2>
 
       <ScrollButton direction="left" onClick={scrollLeftBtn} />

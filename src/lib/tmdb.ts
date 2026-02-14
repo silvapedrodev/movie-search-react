@@ -26,8 +26,8 @@ export async function getPopular(
   return tmdbFetch(`/trending/${type}/${timeWindow}`)
 }
 
-export async function getAllTrending() {
-  return tmdbFetch(`/movie/now_playing`)
+export async function getAllTrending(timeWindow: "day" | "week" = "week" ) {
+  return tmdbFetch(`/trending/all/${timeWindow}`)
 }
 
 export async function searchMulti(query: string) {
