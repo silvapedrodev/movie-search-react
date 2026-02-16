@@ -1,5 +1,5 @@
 import { SearchMultiItem } from "@/types/tmdb"
-import { SearchResultCard } from "../home/search-result-card"
+import { SearchResultCard } from "@/components/home/search-result-card"
 
 type SearchListProps = {
   item: SearchMultiItem[]
@@ -7,7 +7,7 @@ type SearchListProps = {
 
 export const SearchList = ({ item }: SearchListProps) => {
   return (
-    <div className="relative grid grid-cols-[repeat(auto-fill,minmax(120px,auto))] gap-4 px-4 pt-22">
+    <div className="relative grid grid-cols-[repeat(auto-fill,minmax(120px,auto))] md:grid-cols-[repeat(auto-fill,minmax(226px,auto))] gap-4 px-4 pt-22">
       {item.map(item => (
         <SearchResultCard key={item.id} data={item} />
       ))}

@@ -4,12 +4,13 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(req: NextRequest) {
   try {
     const searchText = req.nextUrl.searchParams.get("q")
+    const page = req.nextUrl.searchParams.get("page") || "1"
 
     if (!searchText) {
       return NextResponse.json({ results: [] })
     }
 
-    const url = `https://api.themoviedb.org/3/search/multi?query=${encodeURIComponent(searchText)}&page=1`
+    const url = `https://api.themoviedb.org/3/search/multi?query=${encodeURIComponent(searchText)}&page=${page}`
 
     const res = await fetch(url, {
       headers: {
