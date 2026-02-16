@@ -3,9 +3,9 @@
 import { ReactNode, useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 import { SearchInput } from "@/components/ui/search-input"
-import { SearchResultCard } from "@/components/home/search-result-card"
 import { HeroCarousel } from "./hero-carousel"
 import { MovieOrSerie } from "@/types/tmdb"
+import { SearchList } from "../ui/search-list"
 
 type Props = {
   children: ReactNode
@@ -25,21 +25,19 @@ export const HomeContent = ({ children, heroData }: Props) => {
   })
 
   return (
-    <>
-      <HeroCarousel data={heroData} />
+    <div className="relative min-h-screen">
       <SearchInput onSearch={setSearchValue} />
 
       {isLoading && <p>Carregando...</p>}
 
-      {searchValue.length > 0
-        ? (data?.results?.map((item: any) => (
-          <SearchResultCard key={item.id} data={item} />
-        ))) : (
+      {searchValue.length > 0 && data?.results?.length > 0
+        ? <SearchList item={data.results} /> : (
           <>
+            <HeroCarousel data={heroData} />
             {children}
           </>
         )}
 
-    </>
+    </div>
   )
 }

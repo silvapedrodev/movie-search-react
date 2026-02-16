@@ -11,22 +11,24 @@ export default async function Page() {
   const getPopularTvSectionData = await getPopular("tv", "week")
 
   return (
-    <main className="bg-[linear-gradient(249deg,#030A1B_68.64%,#9747FF_206.69%)]">
+    <main className="min-h-screen bg-[linear-gradient(249deg,#030A1B_68.64%,#9747FF_206.69%)]">
       <HomeContent heroData={trendingData?.results || []}>
-        <HorizontalList
-          title="Trending"
-          items={getTrendingSectionData.results}
-        />
-        <HorizontalList
-          title="Popular - Movies"
-          items={getPopularMovieSectionData.results}
-        />
-        <HorizontalList
-          title="Popular - Series"
-          items={getPopularTvSectionData.results}
-        />
+        <>
+          <HorizontalList
+            title="Trending"
+            items={getTrendingSectionData.results}
+          />
+          <HorizontalList
+            title="Popular - Movies"
+            items={getPopularMovieSectionData.results}
+          />
+          <HorizontalList
+            title="Popular - Series"
+            items={getPopularTvSectionData.results}
+          />
+          <FooterHome />
+        </>
       </HomeContent>
-      <FooterHome />
     </main>
   )
 }
