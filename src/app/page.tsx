@@ -1,19 +1,30 @@
 import { FooterHome } from "@/components/home/footer";
 import { HomeContent } from "@/components/home/home-content";
-import { PopularMoviesSection } from "@/components/home/popular-movies-section";
-import { PopularTvSection } from "@/components/home/popular-tv-section";
-import { TrendingSection } from "@/components/home/trending-section";
-import { getAllTrending } from "@/lib/tmdb";
+import { HorizontalList } from "@/components/ui/horizontal-list";
+import { getAllTrending, getPopular } from "@/lib/tmdb";
 
 export default async function Page() {
   const trendingData = await getAllTrending("week")
 
+  const getTrendingSectionData = await getAllTrending()
+  const getPopularMovieSectionData = await getPopular("movie", "week")
+  const getPopularTvSectionData = await getPopular("tv", "week")
+
   return (
     <main className="bg-[linear-gradient(249deg,#030A1B_68.64%,#9747FF_206.69%)]">
       <HomeContent heroData={trendingData?.results || []}>
-        <TrendingSection />
-        <PopularMoviesSection />
-        <PopularTvSection />
+        <HorizontalList
+          title="Trending"
+          items={getTrendingSectionData.results}
+        />
+        <HorizontalList
+          title="Popular - Movies"
+          items={getPopularMovieSectionData.results}
+        />
+        <HorizontalList
+          title="Popular - Series"
+          items={getPopularTvSectionData.results}
+        />
       </HomeContent>
       <FooterHome />
     </main>
