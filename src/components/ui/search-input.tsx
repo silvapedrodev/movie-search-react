@@ -17,7 +17,10 @@ export const SearchInput = ({ onSearch }: Props) => {
         value={value}
         placeholder="Search for movies, tv shows..."
         className="outline-none flex-1 text-sm h-8 placeholder:text-white"
-        onChange={e => setValue(e.target.value)}
+        onChange={e => {
+          setValue(e.target.value)
+          onSearch(e.target.value) 
+        }}
         onKeyDown={key => {
           if(key.code === "Enter") onSearch(value)
         }}
