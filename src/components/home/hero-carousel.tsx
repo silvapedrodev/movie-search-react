@@ -28,22 +28,22 @@ export const HeroCarousel = ({ data }: HeroCarouselProps) => {
           .sort((a, b) => (b.vote_average ?? 0) - (a.vote_average ?? 0))
           .map(item => (
             <SwiperSlide key={item.id} className="space-y-4">
-              <div className="relative w-full h-[450px] md:h-[600px] lg:h-[700px]">
+              <div className="relative w-full h-[450px] md:h-[650px]">
                 <Image
                   src={getTmdbImageUrl(item.backdrop_path, "w1280")}
                   alt={item.title || item.name || "Poster"}
                   fill
-                  className="absolute top-0 left-0 w-full h-full object-cover"
+                  className="absolute top-0 left-0 w-full h-full object-cover md:object-top-left"
                   priority
                 />
                 <div className="px-4">
                   <div className="absolute bottom-0 left-0 w-full h-1/2 
-                bg-linear-to-t from-black via-transparent to-transparent" />
-                  <h2 className="absolute bottom-0 text-4xl font-bold">{item.name || item.title}</h2>
+                bg-linear-to-t from-black to-transparent" />
+                  <h2 className="absolute bottom-0 text-4xl md:text-5xl font-bold">{item.name || item.title}</h2>
                 </div>
               </div>
-              <div className="px-4 space-y-4">
-                <p>{item.overview}</p>
+              <div className="md:max-w-2xl px-4 space-y-4">
+                <p className="line-clamp-3 md:line-clamp-5">{item.overview}</p>
                 <div className="flex gap-4">
                   <MediaTypeBadge label={item.media_type || "N/A"} />
                   <MediaTypeBadge label={getYear(item)} />
@@ -64,7 +64,7 @@ type MediaTypeBadgeProps = {
 
 const MediaTypeBadge = ({ label, vote }: MediaTypeBadgeProps) => {
   return (
-    <div className="flex items-center gap-1 text-white text-sm uppercase font-bold bg-purple-850 w-fit px-2 py-1 rounded-md">
+    <div className="flex items-center gap-1 text-white text-sm uppercase font-bold bg-purple-550 w-fit px-2 py-1 rounded-md">
       {vote ? (
         <>
           <Star size={14} fill="white" stroke="none" />
