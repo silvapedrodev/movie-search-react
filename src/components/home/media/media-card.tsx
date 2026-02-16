@@ -8,13 +8,22 @@ import Link from "next/link"
 
 type Props = {
   data: MovieOrSerie
+  preventClick?: boolean
 }
 
-export const MediaCard = ({ data }: Props) => {
+export const MediaCard = ({ data, preventClick}: Props) => {
   return (
     <Link
       href={`/${data.media_type ? data.media_type : 'movie'}/${data.id}`}
       className="w-32 sm:w-40 md:w-48 lg:w-56 shrink-0"
+      draggable={false}
+      onDragStart={(e) => e.preventDefault()}
+      onClick={(e) => {
+        if (preventClick) {
+          e.preventDefault()
+          e.stopPropagation()
+        }
+      }}
     >
       <div className="relative aspect-2/3">
         <Image

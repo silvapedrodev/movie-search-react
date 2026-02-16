@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef } from "react"
+import { useRef, useState } from "react"
 import { MovieOrSerie } from "@/types/tmdb"
 import { ScrollButton } from "./scroll-button"
 import { MediaCard } from "../home/media/media-card"
@@ -11,8 +11,9 @@ type Props = {
 }
 
 export const HorizontalList = ({ title, items }: Props) => {
-  const listRef = useRef<HTMLDivElement>(null)
+  const [preventClick, setPreventClick] = useState(false)
 
+  const listRef = useRef<HTMLDivElement>(null)
   const isDragging = useRef(false)
   const startX = useRef(0)
   const scrollLeft = useRef(0)
@@ -28,38 +29,29 @@ export const HorizontalList = ({ title, items }: Props) => {
     listRef.current.scrollBy({ left: -300, behavior: "smooth" })
   }
 
-  const handleMouseDown = (e: React.MouseEvent) => {
+  const handlePointerDown = (e: React.PointerEvent) => {
     if (!listRef.current) return
-
     isDragging.current = true
-    listRef.current.classList.add("cursor-grabbing")
-
-    const rect = listRef.current.getBoundingClientRect()
-    startX.current = e.clientX - rect.left
+    setPreventClick(false)
+    startX.current = e.clientX
     scrollLeft.current = listRef.current.scrollLeft
+    listRef.current.classList.add("cursor-grabbing")
   }
 
-  const handleMouseUp = () => {
-    isDragging.current = false
-    listRef.current?.classList.remove("cursor-grabbing")
-  }
-
-  const handleMouseLeave = () => {
-    isDragging.current = false
-    listRef.current?.classList.remove("cursor-grabbing")
-  }
-
-  const handleMouseMove = (e: React.MouseEvent) => {
+  const handlePointerMove = (e: React.PointerEvent) => {
     if (!isDragging.current || !listRef.current) return
-
-    e.preventDefault()
-
-    const rect = listRef.current.getBoundingClientRect()
-    const x = e.clientX - rect.left
-    const walk = x - startX.current
-
+    const walk = e.clientX - startX.current
+    if (Math.abs(walk) > 5) setPreventClick(true)
     listRef.current.scrollLeft = scrollLeft.current - walk
   }
+
+  const handlePointerUp = () => {
+    isDragging.current = false
+    listRef.current?.classList.remove("cursor-grabbing")
+    // reset após pequeno delay para não bloquear próximo clique
+    setTimeout(() => setPreventClick(false), 50)
+  }
+
 
   return (
     <section className="my-8 px-4 relative">
@@ -70,14 +62,14 @@ export const HorizontalList = ({ title, items }: Props) => {
 
       <div
         ref={listRef}
-        onMouseDown={handleMouseDown}
-        onMouseUp={handleMouseUp}
-        onMouseLeave={handleMouseLeave}
-        onMouseMove={handleMouseMove}
+        onPointerDown={handlePointerDown}
+        onPointerUp={handlePointerUp}
+        onPointerLeave={handlePointerUp}
+        onPointerMove={handlePointerMove}
         className={`flex gap-4 overflow-x-auto no-scrollbar cursor-grab select-none`}
       >
         {items.map(item => (
-          <MediaCard key={item.id} data={item} />
+          <MediaCard key={item.id} data={item} preventClick={preventClick} />
         ))}
       </div>
     </section>
