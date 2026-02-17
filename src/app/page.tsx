@@ -1,6 +1,6 @@
 import { FooterHome } from "@/components/home/footer";
 import { HomeContent } from "@/components/home/home-content";
-import { HorizontalList } from "@/components/ui/horizontal-list";
+import { HorizontalList } from "@/components/home/horizontal-list";
 import { getAllTrending, getPopular } from "@/lib/tmdb";
 
 export default async function Page() {

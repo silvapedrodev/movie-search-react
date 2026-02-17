@@ -2,8 +2,8 @@
 
 import { useRef, useState } from "react"
 import { MovieOrSerie } from "@/types/tmdb"
-import { ScrollButton } from "./scroll-button"
-import { MediaCard } from "../home/media/media-card"
+import { ScrollButton } from "@/components/ui/scroll-button"
+import { MediaCard } from "@/components/home/media/media-card"
 
 type Props = {
   title: string

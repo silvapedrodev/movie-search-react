@@ -5,8 +5,8 @@ import { useInfiniteQuery } from "@tanstack/react-query"
 import { SearchInput } from "@/components/ui/search-input"
 import { HeroCarousel } from "./hero-carousel"
 import { MovieOrSerie } from "@/types/tmdb"
-import { SearchList } from "@/components/ui/search-list"
-import { SearchSkeletonList } from "../ui/search-skeleton-list"
+import { SearchList } from "@/components/home/search/search-list"
+import { SearchSkeletonList } from "./search/search-skeleton-list"
 import { NotFoundMessage } from "../ui/not-found-message"
 
 type Props = {

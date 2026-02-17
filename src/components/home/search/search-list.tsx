@@ -1,5 +1,5 @@
 import { SearchMultiItem } from "@/types/tmdb"
-import { SearchResultCard } from "@/components/home/search-result-card"
+import { SearchResultCard } from "@/components/home/search/search-result-card"
 
 type SearchListProps = {
   item: SearchMultiItem[]
