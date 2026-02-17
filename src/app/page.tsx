@@ -1,5 +1,5 @@
 import { FooterHome } from "@/components/home/footer";
-import { HomeContent } from "@/components/home/home-content";
+import { ContentWrapper } from "@/components/home/content-wrapper";
 import { HorizontalList } from "@/components/home/horizontal-list";
 import { getAllTrending, getPopular } from "@/lib/tmdb";
 
@@ -11,8 +11,8 @@ export default async function Page() {
   const getPopularTvSectionData = await getPopular("tv", "week")
 
   return (
-    <main className="min-h-screen bg-[linear-gradient(249deg,#030A1B_68.64%,#9747FF_206.69%)]">
-      <HomeContent heroData={trendingData?.results || []}>
+    <main>
+      <ContentWrapper heroData={trendingData?.results || []}>
         <>
           <HorizontalList
             title="Trending"
@@ -28,7 +28,7 @@ export default async function Page() {
           />
           <FooterHome />
         </>
-      </HomeContent>
+      </ContentWrapper>
     </main>
   )
 }

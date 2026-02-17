@@ -19,16 +19,19 @@ export const SearchInput = ({ onSearch }: Props) => {
         className="outline-none flex-1 text-sm h-8 placeholder:text-white"
         onChange={e => {
           setValue(e.target.value)
-          onSearch(e.target.value) 
+          onSearch(e.target.value)
         }}
         onKeyDown={key => {
-          if(key.code === "Enter") onSearch(value)
+          if (key.code === "Enter") onSearch(value)
         }}
       />
-      <Search 
+      <Search
         className="cursor-pointer text-white"
         onClick={() => onSearch(value)}
       />
+      <div className="size-8 bg-purple-900 border border-purple-500 rounded-full flex items-center justify-center text-sm font-medium text-white hover:cursor-pointer">
+        A
+      </div>
     </div>
   )
 }

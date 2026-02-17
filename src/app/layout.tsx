@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Lato } from "next/font/google";
 import "./globals.css";
-import { Providers } from "@/utils/provider";
+import { Providers, SearchProvider } from "@/utils/provider";
 
 const lato = Lato({
   subsets: ["latin"],
@@ -24,7 +24,9 @@ export default function RootLayout({
         className={`${lato.className} antialiased`}
       >
         <Providers>
-          {children}
+          <SearchProvider>
+            {children}
+          </SearchProvider>
         </Providers>
       </body>
     </html>
