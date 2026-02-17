@@ -27,7 +27,7 @@ export const HeroCarousel = ({ data }: HeroCarouselProps) => {
         {[...data]
           .sort((a, b) => (b.vote_average ?? 0) - (a.vote_average ?? 0))
           .map(item => (
-            <SwiperSlide key={item.id} className="space-y-4">
+            <SwiperSlide key={item.id} className="">
               <div className="relative w-full h-[450px] md:h-[650px]">
                 <Image
                   src={getTmdbImageUrl(item.backdrop_path, "w1280")}
@@ -42,7 +42,7 @@ export const HeroCarousel = ({ data }: HeroCarouselProps) => {
                   <h2 className="absolute bottom-0 text-4xl md:text-5xl font-bold">{item.name || item.title}</h2>
                 </div>
               </div>
-              <div className="md:max-w-2xl px-4 space-y-4">
+              <div className="md:max-w-2xl bg-linear-to-b from-black to-transparent p-4 space-y-4">
                 <p className="line-clamp-3 md:line-clamp-5">{item.overview}</p>
                 <div className="flex gap-4">
                   <MediaTypeBadge label={item.media_type || "N/A"} />
@@ -64,7 +64,7 @@ type MediaTypeBadgeProps = {
 
 const MediaTypeBadge = ({ label, vote }: MediaTypeBadgeProps) => {
   return (
-    <div className="flex items-center gap-1 text-white text-sm uppercase font-bold bg-purple-550 w-fit px-2 py-1 rounded-md">
+    <div className="flex items-center gap-1 text-white text-sm uppercase font-bold bg-purple-550/50 w-fit px-2 py-1 rounded-md">
       {vote ? (
         <>
           <Star size={14} fill="white" stroke="none" />
