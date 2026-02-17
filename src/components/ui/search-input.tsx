@@ -1,6 +1,6 @@
 "use client"
 
-import { Home, House, HouseHeart, Play, Search } from "lucide-react"
+import { Play, Search } from "lucide-react"
 import Link from "next/link"
 
 type Props = {

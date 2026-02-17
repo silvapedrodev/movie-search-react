@@ -96,7 +96,6 @@ export const SearchProvider = ({ children, heroData }: SearchProviderProps) => {
 
   return (
     <div className="relative min-h-screen bg-[linear-gradient(249deg,#030A1B_68.64%,#9747FF_206.69%)]">
-      {/* Search Input sempre visível */}
       <SearchInput value={inputValue} onSearch={setInputValue} />
 
       {isSearching ? (
