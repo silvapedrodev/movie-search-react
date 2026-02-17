@@ -14,7 +14,8 @@ export const SearchResultCard = ({ data }: Props) => {
   return (
     <Link
       href={`/${data.media_type ? data.media_type : 'movie'}/${data.id}`}
-      className="w-full hover:scale-105 transition-transform duration-200">
+      className="w-full hover:scale-105 transition-transform duration-200"
+    >
       <div className="relative aspect-2/3">
         <Image
           src={getTmdbImageUrl(data.poster_path, "w500")}
@@ -24,10 +25,10 @@ export const SearchResultCard = ({ data }: Props) => {
           className="object-cover rounded-xl"
         />
         <div className="absolute top-1 right-2 font-bold">
-          {data.media_type === "movie" 
-            ? <Film  className="size-5"/>
-            : <Monitor className="size-5"/>
-        }
+          {data.media_type === "movie"
+            ? <Film className="size-5" />
+            : <Monitor className="size-5" />
+          }
         </div>
       </div>
     </Link>

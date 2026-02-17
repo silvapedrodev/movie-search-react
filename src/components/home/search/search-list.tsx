@@ -9,7 +9,10 @@ export const SearchList = ({ item }: SearchListProps) => {
   return (
     <div className="relative grid grid-cols-[repeat(auto-fill,minmax(120px,auto))] md:grid-cols-[repeat(auto-fill,minmax(226px,auto))] gap-4 px-4 pt-22">
       {item.map(item => (
-        <SearchResultCard key={item.id} data={item} />
+        <SearchResultCard
+          key={item.id}
+          data={item}
+        />
       ))}
     </div>
   )

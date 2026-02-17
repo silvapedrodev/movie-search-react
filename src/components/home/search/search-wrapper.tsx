@@ -12,6 +12,7 @@ export const SearchWrapper = ({ onSearch }: Props) => {
 
   return (
     <SearchInput
+      value={value}
       onSearch={(value) => {
         setValue(value)
         if (onSearch) onSearch(value)

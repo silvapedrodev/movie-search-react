@@ -9,6 +9,7 @@ import { SearchSkeletonList } from "@/components/home/search/search-skeleton-lis
 import { NotFoundMessage } from "@/components/ui/not-found-message"
 import { MovieOrSerie } from "@/types/tmdb"
 import { HeroCarousel } from "@/components/home/hero-carousel"
+import { usePathname } from "next/navigation"
 
 type Props = {
   children: ReactNode
@@ -80,16 +81,23 @@ export const SearchProvider = ({ children, heroData }: SearchProviderProps) => {
     )
 
     if (loadMoreRef.current) observer.observe(loadMoreRef.current)
-      
+
     return () => {
       if (loadMoreRef.current) observer.unobserve(loadMoreRef.current)
     }
   }, [fetchNextPage, hasNextPage])
 
+  const pathname = usePathname()
+
+  useEffect(() => {
+    setSearchValue("")
+    setInputValue("")
+  }, [pathname])
+
   return (
     <div className="relative min-h-screen bg-[linear-gradient(249deg,#030A1B_68.64%,#9747FF_206.69%)]">
       {/* Search Input sempre visível */}
-      <SearchInput onSearch={setInputValue} />
+      <SearchInput value={inputValue} onSearch={setInputValue} />
 
       {isSearching ? (
         showNotFound ? (
