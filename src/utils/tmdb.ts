@@ -35,3 +35,13 @@ export function getYear(data: MovieOrSerie): string {
   if (!date) return ""
   return date.split("-")[0]
 }
+
+export function formatRuntime(minutes: number | null) {
+  if (!minutes) return "N/A";
+
+  const h = Math.floor(minutes / 60);
+  const m = minutes % 60;
+
+  if (h === 0) return `${m} min`;
+  return `${h} h ${m} min`;
+}
