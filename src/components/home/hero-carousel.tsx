@@ -64,7 +64,7 @@ type MediaTypeBadgeProps = {
 
 const MediaTypeBadge = ({ label, vote }: MediaTypeBadgeProps) => {
   return (
-    <div className="flex items-center gap-1 text-white text-sm uppercase font-bold bg-purple-550/50 w-fit px-2 py-1 rounded-md">
+    <div className="flex items-center gap-1 text-white text-sm uppercase font-bold bg-purple-850 w-fit px-2 py-1 rounded-md">
       {vote ? (
         <>
           <Star size={14} fill="white" stroke="none" />
