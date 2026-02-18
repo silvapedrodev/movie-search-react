@@ -1,10 +1,30 @@
 import { MovieOrSerie } from "@/types/tmdb"
 
+type BackdropSize = "w300" | "w780" | "w1280" | "original"
+type PosterSize = "w92" | "w154" | "w185" | "w342" | "w500" | "w780" | "original"
+type LogoSize = "w45" | "w92" | "w154" | "w185" | "w300" | "w500" | "original"
+
 const TMDB_IMAGE_BASE_URL = "https://image.tmdb.org/t/p"
 
-export function getTmdbImageUrl(
+export function getBackdropUrl(
   path: string | null | undefined,
-  size: "w200" | "w300" | "w500" | "w780" | "w1280"|"original" = "w300"
+  size: BackdropSize = "w1280"
+) {
+  if (!path) return "/placeholder.png"
+  return `${TMDB_IMAGE_BASE_URL}/${size}${path}`
+}
+
+export function getPosterUrl(
+  path: string | null | undefined,
+  size: PosterSize = "w500"
+) {
+  if (!path) return "/placeholder.png"
+  return `${TMDB_IMAGE_BASE_URL}/${size}${path}`
+}
+
+export function getLogoUrl(
+  path: string | null | undefined,
+  size: LogoSize = "w300"
 ) {
   if (!path) return "/placeholder.png"
   return `${TMDB_IMAGE_BASE_URL}/${size}${path}`

@@ -2,7 +2,7 @@
 
 import Image from "next/image"
 import { MovieOrSerie } from "@/types/tmdb"
-import { getTmdbImageUrl, getYear } from "@/utils/tmdb"
+import { getPosterUrl, getYear } from "@/utils/tmdb"
 import { Star } from "lucide-react"
 import Link from "next/link"
 
@@ -27,7 +27,7 @@ export const MediaCard = ({ data, preventClick}: Props) => {
     >
       <div className="relative aspect-2/3">
         <Image
-          src={getTmdbImageUrl(data.poster_path)}
+          src={getPosterUrl(data.poster_path)}
           alt={data.title || data.name || "Unknown"}
           draggable={false}
           fill

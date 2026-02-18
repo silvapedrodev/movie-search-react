@@ -3,7 +3,7 @@ import 'swiper/css';
 import 'swiper/css/thumbs';
 import { MovieOrSerie } from "@/types/tmdb";
 import Image from "next/image";
-import { getTmdbImageUrl, getYear } from "@/utils/tmdb";
+import { getBackdropUrl, getYear } from "@/utils/tmdb";
 import { Autoplay } from "swiper/modules";
 import { Star } from "lucide-react";
 
@@ -30,7 +30,7 @@ export const HeroCarousel = ({ data }: HeroCarouselProps) => {
             <SwiperSlide key={item.id} className="">
               <div className="relative w-full h-[450px] md:h-[650px]">
                 <Image
-                  src={getTmdbImageUrl(item.backdrop_path, "w1280")}
+                  src={getBackdropUrl(item.backdrop_path, "w1280")}
                   alt={item.title || item.name || "Poster"}
                   fill
                   className="absolute top-0 left-0 w-full h-full object-cover md:object-top-left"

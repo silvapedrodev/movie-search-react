@@ -1,5 +1,5 @@
 import { SearchMultiItem } from "@/types/tmdb"
-import { getTmdbImageUrl } from "@/utils/tmdb"
+import { getPosterUrl } from "@/utils/tmdb"
 import { Film, Monitor } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
@@ -18,7 +18,7 @@ export const SearchResultCard = ({ data }: Props) => {
     >
       <div className="relative aspect-2/3">
         <Image
-          src={getTmdbImageUrl(data.poster_path, "w500")}
+          src={getPosterUrl(data.poster_path, "w500")}
           alt={`Poster de ${data.name}`}
           fill
           sizes="(max-width: 640px) 128px, (max-width: 768px) 160px, (max-width: 1024px) 192px, 224px"
