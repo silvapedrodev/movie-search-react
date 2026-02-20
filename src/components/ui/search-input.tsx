@@ -11,7 +11,7 @@ type Props = {
 export const SearchInput = ({ onSearch, value }: Props) => {
 
   return (
-    <div className="absolute max-w-5xl top-0 left-4 right-4 z-10 flex gap-4 items-center bg-gray-600/30 backdrop-blur-xs mt-4 mx-auto px-4 py-2 rounded-lg border-[0.5px] border-purple-900">
+    <div className="absolute max-w-5xl left-4 right-4 z-10 flex gap-4 items-center bg-gray-600/30 backdrop-blur-xs my-4 mx-auto px-4 py-2 rounded-lg border-[0.5px] border-purple-900">
       <Link href="/">
         <Play
           className="fill-purple-550 size-8 text-purple-550"
