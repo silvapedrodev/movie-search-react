@@ -21,7 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${lato.className} antialiased`}
+        className={`${lato.className} antialiased text-white`}
       >
         <Providers>
           <SearchProvider>

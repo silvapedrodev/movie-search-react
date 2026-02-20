@@ -1,7 +1,7 @@
 import Image from "next/image"
 import { GetImagesResult, MediaItem } from "@/types/tmdb"
 import { getBackdropUrl } from "@/utils/tmdb"
-import UserScore from "@/components/ui/user-score"
+import UserScore from "@/components/elements/user-score"
 import { MediaMeta } from "@/components/media/media-meta"
 import { MediaActions } from "@/components/media/media-actions"
 import { MediaOverview } from "@/components/media/media-overview"

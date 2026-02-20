@@ -1,10 +1,18 @@
 -- Automatically create profile after user signup
-create function public.create_profile()
-returns trigger as $$
+create or replace function public.create_profile()
+returns trigger
+security definer
+set search_path = public
+as $$
 begin
-    insert into profiles (id, email, username)
-    values (new.id, new.email, new.email); -- default username = email
-    return new;
+  insert into public.profiles (id, email, username)
+  values (
+    new.id,
+    new.email,
+    coalesce(new.raw_user_meta_data->>'username', new.email)
+  );
+
+  return new;
 end;
 $$ language plpgsql;
 

@@ -2,7 +2,7 @@ export default async function Signup() {
 
   return (
     <main>
-      <p>Cadastrar</p>
+      <h1>Welcome</h1>
     </main>
   )
 }

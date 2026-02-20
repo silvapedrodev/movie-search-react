@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { SearchInput } from "@/components/ui/search-input"
+import { SearchInput } from "@/components/elements/search-input"
 
 type Props = {
   onSearch?: (value: string) => void

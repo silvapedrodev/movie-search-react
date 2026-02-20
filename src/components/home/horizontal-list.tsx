@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react"
 import { MovieOrSerie } from "@/types/tmdb"
-import { ScrollButton } from "@/components/ui/scroll-button"
+import { ScrollButton } from "@/components/elements/scroll-button"
 import { MediaCard } from "@/components/home/media/media-card"
 
 type Props = {

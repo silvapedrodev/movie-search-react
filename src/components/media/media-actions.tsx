@@ -1,4 +1,4 @@
-import ActionButton from "@/components/ui/action-button";
+import ActionButton from "@/components/elements/action-button";
 import { Bookmark, Check } from "lucide-react";
 
 export const MediaActions = () => {
