@@ -10,6 +10,7 @@ import { NotFoundMessage } from "@/components/elements/not-found-message"
 import { MovieOrSerie } from "@/types/tmdb"
 import { HeroCarousel } from "@/components/home/hero-carousel"
 import { usePathname } from "next/navigation"
+import { searchMultiPaginated } from "@/actions/search"
 
 type Props = {
   children: ReactNode
@@ -43,10 +44,7 @@ export const SearchProvider = ({ children, heroData }: SearchProviderProps) => {
     isLoading
   } = useInfiniteQuery({
     queryKey: ["search", searchValue],
-    queryFn: async ({ pageParam = 1 }) => {
-      const res = await fetch(`/api/search?q=${searchValue}&page=${pageParam}`)
-      return res.json()
-    },
+    queryFn: ({ pageParam = 1 }) => searchMultiPaginated(searchValue, pageParam as number),
     initialPageParam: 1,
     getNextPageParam: (lastPage) => {
       if (lastPage.page < lastPage.total_pages) return lastPage.page + 1
