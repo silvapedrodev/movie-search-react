@@ -15,6 +15,9 @@ import {
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import Link from 'next/link'
+import { InputContainer } from './elements/input-container'
+import { IconInput } from './elements/icon-input'
+import { ArrowLeft, User } from 'lucide-react'
 
 export function ForgotPasswordForm({ className, ...props }: React.ComponentPropsWithoutRef<'div'>) {
   const [email, setEmail] = useState('')
@@ -45,7 +48,7 @@ export function ForgotPasswordForm({ className, ...props }: React.ComponentProps
   return (
     <div className={cn('flex flex-col gap-6', className)} {...props}>
       {success ? (
-        <Card>
+        <Card className='bg-slate-900 text-white border border-purple-900/30'>
           <CardHeader>
             <CardTitle className="text-2xl">Check Your Email</CardTitle>
             <CardDescription>Password reset instructions sent</CardDescription>
@@ -56,9 +59,18 @@ export function ForgotPasswordForm({ className, ...props }: React.ComponentProps
               email.
             </p>
           </CardContent>
+          <Link
+            href="/"
+            className="mt-3 bg-white/5 mx-auto inline-flex items-center gap-2 
+             text-slate-300 hover:text-white hover:bg-purple-550/20 
+             px-4 py-2 rounded-md transition-colors"
+          >
+            <ArrowLeft className="size-4" />
+            Back to Home
+          </Link>
         </Card>
       ) : (
-        <Card>
+        <Card className='bg-slate-900 text-white border border-purple-900/30'>
           <CardHeader>
             <CardTitle className="text-2xl">Reset Your Password</CardTitle>
             <CardDescription>
@@ -70,23 +82,27 @@ export function ForgotPasswordForm({ className, ...props }: React.ComponentProps
               <div className="flex flex-col gap-6">
                 <div className="grid gap-2">
                   <Label htmlFor="email">Email</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="m@example.com"
-                    required
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
+                  <InputContainer>
+                    <IconInput icon={User} />
+                    <Input
+                      id="email"
+                      type="email"
+                      placeholder="m@example.com"
+                      required
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className='border-none text-white shadow-none focus-visible:ring-0 selection:bg-purple-550'
+                    />
+                  </InputContainer>
                 </div>
                 {error && <p className="text-sm text-red-500">{error}</p>}
-                <Button type="submit" className="w-full" disabled={isLoading}>
+                <Button type="submit" className="w-full py-5 bg-[linear-gradient(249deg,#030A1B_10%,#9747FF_206.69%)]" disabled={isLoading}>
                   {isLoading ? 'Sending...' : 'Send reset email'}
                 </Button>
               </div>
               <div className="mt-4 text-center text-sm">
                 Already have an account?{' '}
-                <Link href="/auth/login" className="underline underline-offset-4">
+                <Link href="/auth/login" className="underline underline-offset-4 hover:text-purple-550">
                   Login
                 </Link>
               </div>

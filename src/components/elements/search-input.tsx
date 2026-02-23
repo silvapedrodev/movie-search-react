@@ -39,7 +39,7 @@ export const SearchInput = ({ onSearch, value }: Props) => {
           <Avatar letter={initial} />
         ) : (
           <Link
-            href="/signin"
+            href="/auth/login"
             className="w-8 h-8 rounded-full border border-purple-550 bg-purple-900 flex items-center justify-center text-white hover:opacity-90 shrink-0"
             aria-label="Fazer login"
           >

@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation'
 import { LogoutButton } from '@/components/logout-button'
 import { getUsername } from '@/lib/supabase/user'
 
-export default async function ProtectedPage() {
+export default async function ProfilePage() {
   const username = await getUsername()
   if (!username) redirect('/auth/login')
 
