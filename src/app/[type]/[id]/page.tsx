@@ -32,9 +32,6 @@ export default async function Page({ params }: Props) {
     getImages(mediaType, tmdbId),
   ])
 
-  const teste = await toggleWatchlist({ mediaId: tmdbId, mediaType: mediaType })
-  console.log(teste)
-
   return (
     <MediaDetails
       data={data}
