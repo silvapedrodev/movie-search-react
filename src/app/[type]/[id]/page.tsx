@@ -1,3 +1,4 @@
+import { toggleWatchlist } from "@/actions/media-status";
 import { MediaDetails } from "@/components/media/media-details";
 import { getImages, getItemByTmdbId, getRating } from "@/lib/tmdb";
 import { GetImagesResult, MediaItem } from "@/types/tmdb";
@@ -30,6 +31,9 @@ export default async function Page({ params }: Props) {
     getRating(mediaType, tmdbId),
     getImages(mediaType, tmdbId),
   ])
+
+  const teste = await toggleWatchlist({ mediaId: tmdbId, mediaType: mediaType })
+  console.log(teste)
 
   return (
     <MediaDetails

@@ -1,3 +1,5 @@
+export type MediaType = "movie" | "tv"
+
 export type SearchMultiItem = {
   id: number;
   media_type: "movie" | "tv"
@@ -74,4 +76,9 @@ export type GetImagesResult = {
   logo: TmdbImage | null
   posters: TmdbImage[]
   backdrops: TmdbImage[]
+}
+
+export type MediaStatus = {
+  isSeen: boolean
+  isWatchlist: boolean
 }
