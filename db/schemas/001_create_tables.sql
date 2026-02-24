@@ -6,18 +6,17 @@ create table if not exists profiles (
     created_at timestamptz default now()
 );
 
--- Watchlist table
-create table if not exists watchlist (
+-- User media table (watchlist and seen)
+create table if not exists user_media (
     id uuid primary key default gen_random_uuid(),
-    user_id uuid references profiles(id) on delete cascade,
-    movie_id text not null,
-    created_at timestamptz default now()
+    user_id uuid not null references profiles(id) on delete cascade,
+    media_id text not null,
+    media_type text not null check (media_type in ('movie', 'tv')),
+    status text not null check (status in ('watchlist', 'seen')),
+    created_at timestamptz not null default now(),
+    updated_at timestamptz not null default now()
 );
 
--- Seen movies table
-create table if not exists seen_movies (
-    id uuid primary key default gen_random_uuid(),
-    user_id uuid references profiles(id) on delete cascade,
-    movie_id text not null,
-    created_at timestamptz default now()
-);
+-- Ensure a user has only one row per media item
+create unique index if not exists user_media_user_media_unique
+on user_media(user_id, media_id, media_type);
