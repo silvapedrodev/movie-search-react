@@ -2,8 +2,8 @@
 
 import { Play, Search, User } from "lucide-react"
 import Link from "next/link"
-import { useUserProfile } from "@/hooks/use-user-profile"
 import { Avatar } from "./avatar"
+import { useAuth } from "@/context/auth-context"
 
 type Props = {
   value: string
@@ -11,7 +11,7 @@ type Props = {
 }
 
 export const SearchInput = ({ onSearch, value }: Props) => {
-  const { initial, isLoggedIn, isLoading } = useUserProfile()
+  const { initialName, isLoggedIn } = useAuth()
 
   return (
     <div className="absolute max-w-5xl left-4 right-4 z-10 flex gap-4 items-center bg-gray-600/30 backdrop-blur-xs my-4 mx-auto px-4 py-2 rounded-lg border-[0.5px] border-purple-900">
@@ -34,18 +34,16 @@ export const SearchInput = ({ onSearch, value }: Props) => {
         className="cursor-pointer text-white"
         onClick={() => onSearch(value)}
       />
-      {!isLoading && (
-        isLoggedIn ? (
-          <Avatar letter={initial} />
-        ) : (
-          <Link
-            href="/auth/login"
-            className="w-8 h-8 rounded-full border border-purple-550 bg-purple-900 flex items-center justify-center text-white hover:opacity-90 shrink-0"
-            aria-label="Fazer login"
-          >
-            <User className="size-4" />
-          </Link>
-        )
+      {isLoggedIn ? ( // 👈 sem o !isLoading wrapping
+        <Avatar letter={initialName} />
+      ) : (
+        <Link
+          href="/auth/login"
+          className="w-8 h-8 rounded-full border border-purple-550 bg-purple-900 flex items-center justify-center text-white hover:opacity-90 shrink-0"
+          aria-label="Fazer login"
+        >
+          <User className="size-4" />
+        </Link>
       )}
     </div>
   )

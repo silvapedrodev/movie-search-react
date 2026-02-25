@@ -1,4 +1,3 @@
-import { toggleWatchlist } from "@/actions/media-status";
 import { MediaDetails } from "@/components/media/media-details";
 import { getImages, getItemByTmdbId, getRating } from "@/lib/tmdb";
 import { GetImagesResult, MediaItem } from "@/types/tmdb";
