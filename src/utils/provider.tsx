@@ -11,13 +11,14 @@ import { MovieOrSerie } from "@/types/tmdb"
 import { HeroCarousel } from "@/components/home/hero-carousel"
 import { usePathname } from "next/navigation"
 import { searchMultiPaginated } from "@/actions/search"
+import { useDebounce } from "@/hooks/use-debounce"
 
 type Props = {
   children: ReactNode
 }
 
 export const Providers = ({ children }: Props) => {
-  const queryClient = new QueryClient()
+  const [queryClient] = useState(() => new QueryClient())
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -32,9 +33,10 @@ type SearchProviderProps = {
 }
 
 export const SearchProvider = ({ children, heroData }: SearchProviderProps) => {
-  const [searchValue, setSearchValue] = useState("")
   const [inputValue, setInputValue] = useState("")
   const loadMoreRef = useRef<HTMLDivElement | null>(null)
+
+  const searchValue = useDebounce(inputValue, 500)
 
   const {
     data,
@@ -61,12 +63,6 @@ export const SearchProvider = ({ children, heroData }: SearchProviderProps) => {
   const isSearching = searchValue.length > 0
   const showNotFound = isSearching && !isLoading && uniqueResults.length === 0
 
-  // Debounce input
-  useEffect(() => {
-    const timer = setTimeout(() => setSearchValue(inputValue), 500)
-    return () => clearTimeout(timer)
-  }, [inputValue])
-
   // Infinite scroll observer
   useEffect(() => {
     if (!hasNextPage) return
@@ -88,7 +84,6 @@ export const SearchProvider = ({ children, heroData }: SearchProviderProps) => {
   const pathname = usePathname()
 
   useEffect(() => {
-    setSearchValue("")
     setInputValue("")
   }, [pathname])
 
