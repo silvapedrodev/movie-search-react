@@ -6,6 +6,7 @@ type ActionButtonProps = {
   filled?: boolean
   onClick?: () => void
   className?: string
+  disabled?: boolean
 }
 
 export default function ActionButton({
@@ -13,22 +14,25 @@ export default function ActionButton({
   label,
   onClick,
   filled = false,
-  className = ""
+  className = "",
+  disabled = false
 }: ActionButtonProps) {
   return (
     <button
       onClick={onClick}
+      disabled={disabled}
       className={`flex items-center justify-center gap-2 
-                  bg-purple-850 hover:bg-purple-550/90 
+                   hover:bg-purple-550/90 
                   transition-colors duration-200
                   px-4 py-3 w-full rounded-lg text-center 
-                  font-medium hover:cursor-pointer${className}`}
+                  font-medium hover:cursor-pointer
+                  disabled:opacity-50 disabled:cursor-not-allowed
+                  ${filled ? 'bg-purple-550 shadow-[0_0_10px_rgba(168,85,247,0.9),0_0_10px_rgba(168,85,247,0.6)]' : 'bg-slate-800'}
+                  ${className}`}
     >
       {Icon && (
         <Icon
           size={18}
-          fill={filled ? "currentColor" : "none"}
-          stroke={filled ? "none" : "currentColor"}
         />
       )}
       <span>{label}</span>

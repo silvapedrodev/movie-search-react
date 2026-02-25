@@ -1,3 +1,5 @@
+"use server"
+
 import { createClient } from "@/lib/supabase/server"
 import { MediaStatus, MediaType } from "@/types/tmdb"
 
@@ -48,8 +50,8 @@ const toggleStatus = async ({
   }
 }
 
-export const toggleWatchlist = (input: Omit<ToggleInput, "targetStatus">) =>
+export const toggleWatchlist = async (input: Omit<ToggleInput, "targetStatus">) =>
   toggleStatus({ ...input, targetStatus: "watchlist" })
 
-export const toggleSeen = (input: Omit<ToggleInput, "targetStatus">) =>
+export const toggleSeen = async (input: Omit<ToggleInput, "targetStatus">) =>
   toggleStatus({ ...input, targetStatus: "seen" })
