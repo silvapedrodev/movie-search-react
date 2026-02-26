@@ -34,7 +34,7 @@ export const SearchInput = ({ onSearch, value }: Props) => {
         className="cursor-pointer text-white"
         onClick={() => onSearch(value)}
       />
-      {isLoggedIn ? ( // 👈 sem o !isLoading wrapping
+      {isLoggedIn ? ( 
         <Avatar letter={initialName} />
       ) : (
         <Avatar isDefault/>
