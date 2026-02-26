@@ -135,3 +135,8 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Class for all tab triggers */
+.tab-trigger {
+  @apply rounded-full px-6 py-5 text-white transition-colors data-[state=active]:bg-purple-850 data-[state=active]:text-white;
+}

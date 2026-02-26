@@ -26,7 +26,6 @@ const getUserId = async () => {
   return { supabase, userId: user.id }
 }
 
-
 const toggleStatus = async ({
   mediaType,
   mediaId,
