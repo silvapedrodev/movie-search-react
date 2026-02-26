@@ -37,13 +37,7 @@ export const SearchInput = ({ onSearch, value }: Props) => {
       {isLoggedIn ? ( // 👈 sem o !isLoading wrapping
         <Avatar letter={initialName} />
       ) : (
-        <Link
-          href="/auth/login"
-          className="w-8 h-8 rounded-full border border-purple-550 bg-purple-900 flex items-center justify-center text-white hover:opacity-90 shrink-0"
-          aria-label="Fazer login"
-        >
-          <User className="size-4" />
-        </Link>
+        <Avatar isDefault/>
       )}
     </div>
   )
