@@ -10,7 +10,7 @@ export const DashboardContent = () => {
   const { username } = useAuth()
 
   return (
-    <div className="w-screen h-screen mx-auto px-4 sm:px-6 lg:px-20 pt-24">
+    <div className="w-full min-h-screen mx-auto px-4 sm:px-6 lg:px-20 pt-24">
       <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4  py-4">
         <div>
           <h1 className="text-2xl md:text-3xl font-bold">Hello, {username}</h1>

@@ -1,6 +1,5 @@
 import { GetImagesResult, TmdbImagesResponse } from "@/types/tmdb"
 
-
 export async function tmdbFetch(path: string) {
   try {
     const res = await fetch(`${process.env.TMDB_API_URL}${path}`, {
@@ -8,6 +7,8 @@ export async function tmdbFetch(path: string) {
         Authorization: `Bearer ${process.env.TMDB_ACCESS_TOKEN}`,
         accept: "application/json",
       },
+      // SWR: revalidates every 30 minutes
+      next: { revalidate: 60 * 30 },
     })
 
     if (!res.ok) {

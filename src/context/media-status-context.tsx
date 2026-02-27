@@ -2,6 +2,7 @@
 
 import { toggleSeen, toggleWatchlist } from "@/actions/media-status"
 import { MediaStatus, MediaType } from "@/types/tmdb"
+import { useQueryClient } from "@tanstack/react-query"
 import { createContext, ReactNode, useContext, useState, useTransition } from "react"
 
 type MediaStatusContextType = {
@@ -29,11 +30,16 @@ export const MediaStatusProvider = ({
   const [status, setStatus] = useState<MediaStatus>(initialStatus)
   const [isPending, startTransition] = useTransition()
 
+  const queryClient = useQueryClient()
+
   const handleToggleWatchlist = async () => {
     startTransition(async () => {
       try {
         const updated = await toggleWatchlist({ mediaId, mediaType })
         setStatus(updated)
+
+        // library refetch
+        queryClient.invalidateQueries({ queryKey: ["user-library"] })
       } catch {
         throw new Error("Failed to update watchlist status.")
       }
@@ -45,6 +51,9 @@ export const MediaStatusProvider = ({
       try {
         const updated = await toggleSeen({ mediaId, mediaType })
         setStatus(updated)
+
+        // library refetch
+        queryClient.invalidateQueries({ queryKey: ["user-library"] })
       } catch {
         throw new Error("Failed to update seen status.")
       }
