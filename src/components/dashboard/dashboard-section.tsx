@@ -6,6 +6,7 @@ import { useUserLibrary } from "@/hooks/use-user-library"
 import { StatusTabs } from "@/components/dashboard/status-tabs"
 import { useState } from "react"
 import { MediaCardDashboardSkeleton } from "@/components/media/media-dashboard-skeleton"
+import { useUserSortMode } from "@/hooks/use-user-sort-mode"
 
 type StatusTab = "seen" | "watchlist"
 
@@ -14,6 +15,8 @@ export const DashboardSection = () => {
 
   const [statusTab, setStatusTab] = useState<StatusTab>("watchlist")
   const [subTab, setSubTab] = useState<"all" | "movies" | "tv-show">("all")
+
+  const { sortMode, setSortMode, isLoading: isSortLoading } = useUserSortMode()
 
   if (isLoading) {
     return <div className="grid grid-cols-1 sm:grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-4">
@@ -46,7 +49,10 @@ export const DashboardSection = () => {
               <TabsTrigger value="seen" className="tab-trigger">Seen</TabsTrigger>
             </TabsList>
 
-            <FilterButton />
+            <FilterButton
+              current={sortMode}
+              onSelect={setSortMode}
+            />
           </div>
 
           <TabsContent value="watchlist" className="mt-4">
@@ -54,6 +60,8 @@ export const DashboardSection = () => {
               items={watchlist}
               subTab={subTab}
               onSubTabChange={setSubTab}
+              sortMode={sortMode}
+              onSortChange={setSortMode}
             />
           </TabsContent>
           <TabsContent value="seen" className="mt-4">
@@ -61,6 +69,8 @@ export const DashboardSection = () => {
               items={seen}
               subTab={subTab}
               onSubTabChange={setSubTab}
+              sortMode={sortMode}
+              onSortChange={setSortMode}
             />
           </TabsContent>
 

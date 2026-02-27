@@ -82,3 +82,5 @@ export type MediaStatus = {
   isSeen: boolean
   isWatchlist: boolean
 }
+
+export type SortOption = "random" | "a-z" | "last"

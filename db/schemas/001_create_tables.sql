@@ -6,6 +6,13 @@ create table if not exists profiles (
     created_at timestamptz default now()
 );
 
+-- User preferences
+create table if not exists user_preferences (
+  user_id uuid primary key references auth.users (id) on delete cascade,
+  library_sort_mode text not null default 'random',
+  updated_at timestamptz not null default now()
+);
+
 -- User media table (watchlist and seen)
 create table if not exists user_media (
     id uuid primary key default gen_random_uuid(),

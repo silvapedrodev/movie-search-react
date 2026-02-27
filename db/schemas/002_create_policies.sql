@@ -10,6 +10,26 @@ for all
 using (auth.uid() = id)
 with check (auth.uid() = id);
 
+
+-- user preferences policies
+alter table user_preferences enable row level security;
+
+create policy "Select own preferences"
+on user_preferences
+for select
+using (user_id = auth.uid());
+
+create policy "Insert own preferences"
+on user_preferences
+for insert
+with check (user_id = auth.uid());
+
+create policy "Update own preferences"
+on user_preferences
+for update
+using (user_id = auth.uid())
+with check (user_id = auth.uid());
+
 -- User media (watchlist and seen):
 create policy "User can manage own media"
 on user_media
