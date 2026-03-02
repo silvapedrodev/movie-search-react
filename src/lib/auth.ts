@@ -3,6 +3,7 @@ import { createClient } from "@/lib/supabase/server"
 export type UserSession = {
   username: string | null
   initialName: string | null
+  email: string | null
   isLoggedIn: boolean
 }
 
@@ -11,7 +12,7 @@ export const getUserSession = async (): Promise<UserSession> => {
   const { data: { user } } = await supabase.auth.getUser()
 
   if (!user) {
-    return { username: null, initialName: null, isLoggedIn: false }
+    return { username: null, initialName: null, email: null, isLoggedIn: false }
   }
 
   const { data: profile } = await supabase
@@ -22,6 +23,7 @@ export const getUserSession = async (): Promise<UserSession> => {
 
   const username = profile?.username ?? null
   const initialName = username ? username.charAt(0).toUpperCase() : null
+  const email = user.email ?? null
 
-  return { username, initialName, isLoggedIn: true }
+  return { username, initialName, email, isLoggedIn: true }
 }

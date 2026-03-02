@@ -3,20 +3,17 @@
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { logout } from "@/actions/auth"
-import { createClient } from "@/lib/supabase/client"
 import { LogOut } from "lucide-react"
+import { useAuth } from "@/context/auth-context"
 
 export function LogoutButton() {
   const router = useRouter()
 
+  const { clearProfile } = useAuth()
+
   const handleLogout = async () => {
     await logout()
-
-    const supabase = createClient()
-    await supabase.auth.signOut()
-
-    router.refresh()
-
+    clearProfile()
     router.push("/auth/login")
   }
 

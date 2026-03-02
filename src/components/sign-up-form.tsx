@@ -72,19 +72,14 @@ export function SignUpForm({ className, ...props }: React.ComponentPropsWithoutR
         },
       })
       if (error) throw error
+      router.refresh()
       router.push('/')
+
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : 'An error occurred')
     } finally {
       setIsLoading(false)
     }
-  }
-
-  const validateUsername = (value: string) => {
-    if (!value.trim()) return "Username cannot be empty"
-    if (value.includes(" ")) return "Username cannot contain spaces"
-    if (value.length > 12) return "Username must be at most 12 characters"
-    return ""
   }
 
   return (

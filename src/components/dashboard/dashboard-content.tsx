@@ -5,9 +5,15 @@ import { Button } from "@/components/ui/button"
 import { LogoutButton } from "@/components/logout-button"
 import { DashboardSection } from "@/components/dashboard/dashboard-section"
 import { useAuth } from "@/context/auth-context"
+import { useRouter } from "next/navigation"
 
 export const DashboardContent = () => {
   const { username } = useAuth()
+  const router = useRouter()
+
+  const handleEditProfile = () => {
+    router.push("/profile/edit")
+  }
 
   return (
     <div className="w-full min-h-screen mx-auto px-4 sm:px-6 lg:px-20 pt-24">
@@ -17,7 +23,10 @@ export const DashboardContent = () => {
           <p>Welcome back! Check your lists, track what you've seen, or update your settings.</p>
         </div>
         <div className="flex gap-2">
-          <Button variant="secondary" className="py-6 bg-slate-800 text-white rounded-lg hover:cursor-pointer hover:bg-purple-850">
+          <Button
+            variant="secondary"
+            onClick={handleEditProfile}
+            className="py-6 bg-slate-800 text-white rounded-lg hover:cursor-pointer hover:bg-purple-850">
             <Pencil size={18} />
             Edit Profile
           </Button>

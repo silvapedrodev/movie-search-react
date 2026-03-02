@@ -21,14 +21,14 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
 
-  const { username, initialName } = await getUserSession()
+  const { username, initialName, email } = await getUserSession()
 
   return (
     <html lang="en">
       <body
         className={`${lato.className} antialiased text-white`}
       >
-        <AuthProvider username={username} initialName={initialName}>
+        <AuthProvider>
           <Providers>
             <SearchProvider>
               {children}

@@ -19,6 +19,12 @@ import { InputContainer } from './elements/input-container'
 import { IconInput } from './elements/icon-input'
 import { Eye, EyeOff, Lock } from 'lucide-react'
 
+import { z } from "zod"
+
+const schema = z.object({
+  password: z.string().min(12, "Password must be at least 12 characters."),
+})
+
 export function UpdatePasswordForm({ className, ...props }: React.ComponentPropsWithoutRef<'div'>) {
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
@@ -31,6 +37,12 @@ export function UpdatePasswordForm({ className, ...props }: React.ComponentProps
     const supabase = createClient()
     setIsLoading(true)
     setError(null)
+
+    const parsed = schema.safeParse({ password })
+    if (!parsed.success) {
+      setError(parsed.error.issues[0]?.message ?? "Invalid password")
+      return
+    }
 
     try {
       const { error } = await supabase.auth.updateUser({ password })

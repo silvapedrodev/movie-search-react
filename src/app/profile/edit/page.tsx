@@ -1,0 +1,11 @@
+import { UpdateProfileForm } from "@/components/update-profile-form";
+
+export default function ProfilePage() {
+  return (
+    <main className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+      <div className="w-full max-w-sm -mt-10">
+        <UpdateProfileForm />
+      </div>
+    </main>
+  )
+}
