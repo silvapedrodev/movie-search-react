@@ -7,7 +7,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ e
     <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
       <div className="w-full max-w-sm">
         <div className="flex flex-col gap-6">
-          <Card>
+          <Card className='bg-purple-850/60 text-white border-purple-950'>
             <CardHeader>
               <CardTitle className="text-2xl">Sorry, something went wrong.</CardTitle>
             </CardHeader>
