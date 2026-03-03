@@ -3,7 +3,6 @@ import { Lato } from "next/font/google";
 import "./globals.css";
 import { Providers, SearchProvider } from "@/utils/provider";
 import { AuthProvider } from "@/context/auth-context";
-import { getUserSession } from "@/lib/auth";
 
 const lato = Lato({
   subsets: ["latin"],
@@ -20,9 +19,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
-  const { username, initialName, email } = await getUserSession()
-
   return (
     <html lang="en">
       <body
