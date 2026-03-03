@@ -14,11 +14,13 @@ import { useRouter } from "next/navigation"
 import { useUpdateUsername } from "@/hooks/use-update-username"
 import { useMutation } from "@tanstack/react-query"
 import { deleteAccount } from "@/actions/delete-account"
+import { DeleteAccountDialog } from "./delete-account-dialog"
 
 export function UpdateProfileForm() {
   const { username, initialName, email, clearProfile } = useAuth()
   const [isEditing, setIsEditing] = useState(false)
   const [updatedUsername, setUpdatedUsername] = useState(username || "")
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
 
   const router = useRouter()
   const mutation = useUpdateUsername()
@@ -47,8 +49,12 @@ export function UpdateProfileForm() {
   }
 
   const handleDeleteAccount = () => {
-    if (!confirm("lorem")) return
+    setDeleteDialogOpen(true)
+  }
+
+  const handleConfirmDelete = () => {
     deleteMutation.mutate()
+    setDeleteDialogOpen(false)
   }
 
   return (
@@ -105,9 +111,8 @@ export function UpdateProfileForm() {
             <Button
               type="button"
               variant="secondary"
-              disabled={!isEditing}
               onClick={handleChangePassword}
-              className="w-full py-5 bg-transparent border border-slate-700 text-slate-500 hover:bg-slate-700/80 hover:cursor-pointer"
+              className="bg-transparent w-full py-3 border border-slate-500 text-slate-300 hover:bg-slate-700/30 cursor-pointer"
             >
               Change Password
             </Button>
@@ -119,10 +124,17 @@ export function UpdateProfileForm() {
               variant="destructive"
               disabled={!isEditing || deleteMutation.isPending}
               onClick={handleDeleteAccount}
-              className="w-full py-5 bg-transparent border text-red-500 hover:text-white border-red-500 hover:cursor-pointer"
+              className="w-full py-3 bg-red-700 text-white hover:bg-red-800 cursor-pointer"
             >
-              {deleteMutation.isPending ? "Deletando..." : "Delete Account"}
+              {deleteMutation.isPending ? "Deleting..." : "Delete Account"}
             </Button>
+
+            <DeleteAccountDialog
+              open={deleteDialogOpen}
+              onOpenChange={setDeleteDialogOpen}
+              onConfirm={handleConfirmDelete}
+              isPending={deleteMutation.isPending}
+            />
           </div>
 
           <div className="flex justify-end gap-3">
@@ -147,7 +159,7 @@ export function UpdateProfileForm() {
                 <Button
                   onClick={handleSave}
                   disabled={updatedUsername.trim() === "" || mutation.isPending}
-                  className="bg-purple-550 hover:bg-purple-850/50 cursor-pointer"
+                  className="bg-purple-850 hover:bg-purple-850/50 cursor-pointer"
                 >
                   {mutation.isPending ? "Salving..." : "Save"}
                 </Button>
