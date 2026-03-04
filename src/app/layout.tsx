@@ -24,13 +24,13 @@ export default function RootLayout({
       <body
         className={`${lato.className} antialiased text-white`}
       >
-        <AuthProvider>
-          <Providers>
+        <Providers>
+          <AuthProvider>
             <SearchProvider>
               {children}
             </SearchProvider>
-          </Providers>
-        </AuthProvider>
+          </AuthProvider>
+        </Providers>
       </body>
     </html>
   );

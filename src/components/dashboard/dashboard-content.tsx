@@ -8,8 +8,10 @@ import { useAuth } from "@/context/auth-context"
 import { useRouter } from "next/navigation"
 
 export const DashboardContent = () => {
-  const { username } = useAuth()
+  const { username, isReady, isLoggedIn } = useAuth()
   const router = useRouter()
+
+  if (!isReady || !isLoggedIn) return null
 
   const handleEditProfile = () => {
     router.push("/profile/edit")

@@ -30,7 +30,6 @@ export async function updateSession(request: NextRequest) {
   const url = request.nextUrl.clone()
   const pathname = url.pathname
 
-  const isAuthRoute = pathname.startsWith("/auth/")
   const isLoginRoute = pathname.startsWith("/auth/login")
   const isSignupRoute = pathname.startsWith("/auth/signup")
   const isProfileRoute = pathname.startsWith("/profile")
@@ -38,7 +37,15 @@ export async function updateSession(request: NextRequest) {
 
   if (!user && (isProfileRoute || isApiRoute)) {
     url.pathname = "/auth/login"
-    return NextResponse.redirect(url)
+    const redirectResponse = NextResponse.redirect(url)
+
+    request.cookies.getAll().forEach(({ name }) => {
+      if (name.includes("sb-")) {
+        redirectResponse.cookies.delete(name)
+      }
+    })
+
+    return redirectResponse
   }
 
   if (user && (isLoginRoute || isSignupRoute)) {

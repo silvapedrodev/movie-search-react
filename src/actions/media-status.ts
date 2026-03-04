@@ -2,6 +2,7 @@
 
 import { createClient } from "@/lib/supabase/server"
 import { MediaStatus, MediaType } from "@/types/tmdb"
+import { redirect } from "next/navigation"
 
 type TargetStatus = "watchlist" | "seen"
 
@@ -20,7 +21,7 @@ const getUserId = async () => {
   } = await supabase.auth.getUser()
 
   if (error || !user) {
-    throw new Error("User not authenticated")
+    redirect("/auth/login")
   }
 
   return { supabase, userId: user.id }
