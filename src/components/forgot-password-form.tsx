@@ -96,7 +96,7 @@ export function ForgotPasswordForm({ className, ...props }: React.ComponentProps
                   </InputContainer>
                 </div>
                 {error && <p className="text-sm text-red-500">{error}</p>}
-                <Button type="submit" className="w-full py-5 bg-[linear-gradient(249deg,#030A1B_10%,#9747FF_206.69%)]" disabled={isLoading}>
+                <Button type="submit" className="w-full py-5 bg-[linear-gradient(249deg,#030A1B_10%,#9747FF_206.69%)] cursor-pointer" disabled={isLoading}>
                   {isLoading ? 'Sending...' : 'Send reset email'}
                 </Button>
               </div>
