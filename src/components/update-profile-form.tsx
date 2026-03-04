@@ -139,12 +139,19 @@ export function UpdateProfileForm() {
 
           <div className="flex justify-end gap-3">
             {!isEditing ? (
-              <Button
-                onClick={() => setIsEditing(true)}
-                className="bg-purple-850 hover:bg-purple-850/50 cursor-pointer"
-              >
-                Edit
-              </Button>
+              <>
+                <Button
+                  onClick={() => router.back()}
+                  className="bg-slate-600 hover:bg-slate-800 hover:text-white cursor-pointer"
+                >Back</Button>
+                <Button
+                  onClick={() => setIsEditing(true)}
+                  className="bg-purple-850 hover:bg-purple-850/50 cursor-pointer"
+                >
+                  Edit
+                </Button>
+              </>
+
             ) : (
               <>
                 <Button
