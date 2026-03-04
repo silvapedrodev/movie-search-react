@@ -18,9 +18,11 @@ import Link from 'next/link'
 import { InputContainer } from './elements/input-container'
 import { IconInput } from './elements/icon-input'
 import { ArrowLeft, User } from 'lucide-react'
+import { useAuth } from '@/context/auth-context'
 
 export function ForgotPasswordForm({ className, ...props }: React.ComponentPropsWithoutRef<'div'>) {
-  const [email, setEmail] = useState('')
+  const { isLoggedIn, email: userEmail } = useAuth()
+  const [email, setEmail] = useState(userEmail ?? '')
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
@@ -74,7 +76,10 @@ export function ForgotPasswordForm({ className, ...props }: React.ComponentProps
           <CardHeader>
             <CardTitle className="text-2xl">Reset Your Password</CardTitle>
             <CardDescription>
-              Type in your email and we&apos;ll send you a link to reset your password
+              {isLoggedIn
+                ? "We'll send a password reset link to your email"
+                : "Type in your email and we'll send you a link to reset your password"
+              }
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -82,7 +87,7 @@ export function ForgotPasswordForm({ className, ...props }: React.ComponentProps
               <div className="flex flex-col gap-6">
                 <div className="grid gap-2">
                   <Label htmlFor="email">Email</Label>
-                  <InputContainer>
+                  <InputContainer className={`${isLoggedIn ? 'border-slate-700' : 'border-white'}`}>
                     <IconInput icon={User} />
                     <Input
                       id="email"
@@ -91,6 +96,7 @@ export function ForgotPasswordForm({ className, ...props }: React.ComponentProps
                       required
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
+                      disabled={isLoggedIn}
                       className='border-none text-white shadow-none focus-visible:ring-0 selection:bg-purple-550'
                     />
                   </InputContainer>
@@ -100,12 +106,14 @@ export function ForgotPasswordForm({ className, ...props }: React.ComponentProps
                   {isLoading ? 'Sending...' : 'Send reset email'}
                 </Button>
               </div>
-              <div className="mt-4 text-center text-sm">
-                Already have an account?{' '}
-                <Link href="/auth/login" className="underline underline-offset-4 hover:text-purple-550">
-                  Login
-                </Link>
-              </div>
+              {!isLoggedIn &&
+                <div className="mt-4 text-center text-sm">
+                  Already have an account?{' '}
+                  <Link href="/auth/login" className="underline underline-offset-4 hover:text-purple-550">
+                    Login
+                  </Link>
+                </div>
+              }
             </form>
           </CardContent>
         </Card>
