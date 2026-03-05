@@ -3,15 +3,32 @@
 import { Pencil } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { LogoutButton } from "@/components/logout-button"
-import { DashboardSection } from "@/components/dashboard/dashboard-section"
+import { DashboardMediaList } from "@/components/dashboard/dashboard-media-list"
 import { useAuth } from "@/context/auth-context"
 import { useRouter } from "next/navigation"
+import { useState } from "react"
+import { DashboardWatchTime } from "@/components/dashboard/dashboard-watch-time"
+
+type DashboardView = "list" | "time"
+
+const tabs: { id: DashboardView; label: string }[] = [
+  { id: "list", label: "My List" },
+  { id: "time", label: "My Time" }
+]
+
+const tabComponent: Record<DashboardView, React.ComponentType> = {
+  list: DashboardMediaList,
+  time: DashboardWatchTime
+}
 
 export const DashboardContent = () => {
   const { username, isReady, isLoggedIn } = useAuth()
+  const [currentTab, setCurrentTab] = useState<DashboardView>('list')
   const router = useRouter()
 
   if (!isReady || !isLoggedIn) return null
+
+  const ActiveComponente = tabComponent[currentTab]
 
   const handleEditProfile = () => {
     router.push("/profile/edit")
@@ -35,7 +52,24 @@ export const DashboardContent = () => {
           <LogoutButton />
         </div>
       </div>
-      <DashboardSection />
+      <div className="flex items-end gap-5">
+        {tabs.map(tab => (
+          <button
+            key={tab.id}
+            onClick={() => setCurrentTab(tab.id)}
+            className={`
+              relative text-xl md:text-2xl font-bold pb-2
+              after:absolute after:left-0 after:bottom-0
+              after:h-1 after:w-14 after:bg-purple-550
+              after:origin-left after:transition-transform after:duration-300
+              ${currentTab === tab.id ? "after:scale-x-100" : "after:scale-x-0"}
+              `}
+          >
+            {tab.label}
+          </button>
+        ))}
+      </div>
+      <ActiveComponente />
     </div>
 
   )

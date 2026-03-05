@@ -10,7 +10,7 @@ import { useUserSortMode } from "@/hooks/use-user-sort-mode"
 
 type StatusTab = "seen" | "watchlist"
 
-export const DashboardSection = () => {
+export const DashboardMediaList = () => {
   const { data, isLoading, isError } = useUserLibrary()
 
   const [statusTab, setStatusTab] = useState<StatusTab>("watchlist")
@@ -34,10 +34,6 @@ export const DashboardSection = () => {
 
   return (
     <div>
-      <h3 className="text-2xl md:text-3xl font-bold relative after:block after:w-14 after:h-1 after:bg-purple-550 after:mt-2">
-        My List
-      </h3>
-
       <div className="py-7">
         <Tabs
           value={statusTab}
