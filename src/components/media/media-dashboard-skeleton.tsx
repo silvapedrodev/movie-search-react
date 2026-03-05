@@ -2,7 +2,7 @@ import { Skeleton } from "@/components/ui/skeleton"
 
 export const MediaCardDashboardSkeleton = () => {
   return (
-    <div className="flex bg-slate-800 rounded-lg overflow-hidden shadow-lg h-full">
+    <div className="flex bg-slate-800 rounded-lg mt-7 overflow-hidden shadow-lg h-full">
 
       <div className="relative shrink-0 w-[120px] aspect-[2/3]">
         <Skeleton className="absolute inset-0 bg-slate-700" />
