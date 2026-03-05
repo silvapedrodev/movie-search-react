@@ -28,7 +28,7 @@ export const MediaHero = ({ data, rating, images }: Props) => {
       <div className="absolute inset-0 bg-black/50" />
 
       <div className="absolute w-full top-12 py-8 px-4 h-full md:top-8 md:flex md:gap-4 md:px-10 md:py-15">
-        
+
         {/* Poster */}
         <div className="relative w-32 md:w-100 aspect-2/3">
           <Image
@@ -36,6 +36,7 @@ export const MediaHero = ({ data, rating, images }: Props) => {
             alt={title}
             fill
             className="object-cover rounded-lg"
+            sizes="(max-width: 768px) 8rem, 25rem"
           />
         </div>
 
@@ -52,7 +53,7 @@ export const MediaHero = ({ data, rating, images }: Props) => {
 
           <MediaActions />
 
-          <MediaOverview overview={data.overview}/>
+          <MediaOverview overview={data.overview} />
         </div>
       </div>
     </div>
