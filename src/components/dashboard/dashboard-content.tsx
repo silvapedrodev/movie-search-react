@@ -7,7 +7,7 @@ import { DashboardMediaList } from "@/components/dashboard/dashboard-media-list"
 import { useAuth } from "@/context/auth-context"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
-import { DashboardWatchTime } from "@/components/dashboard/dashboard-watch-time"
+import { Index } from "@/components/dashboard/dashboard-watch-time"
 
 type DashboardView = "list" | "time"
 
@@ -18,7 +18,7 @@ const tabs: { id: DashboardView; label: string }[] = [
 
 const tabComponent: Record<DashboardView, React.ComponentType> = {
   list: DashboardMediaList,
-  time: DashboardWatchTime
+  time: Index
 }
 
 export const DashboardContent = () => {

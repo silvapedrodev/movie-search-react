@@ -1,8 +1,7 @@
 "use server"
 
-import { createClient } from "@/lib/supabase/server"
 import { MediaStatus, MediaType } from "@/types/tmdb"
-import { redirect } from "next/navigation"
+import { getUserId } from "@/utils/get-user-id"
 
 type TargetStatus = "watchlist" | "seen"
 
@@ -10,21 +9,6 @@ type ToggleInput = {
   mediaType: MediaType
   mediaId: number
   targetStatus: TargetStatus
-}
-
-const getUserId = async () => {
-  const supabase = await createClient()
-
-  const {
-    data: { user },
-    error,
-  } = await supabase.auth.getUser()
-
-  if (error || !user) {
-    redirect("/auth/login")
-  }
-
-  return { supabase, userId: user.id }
 }
 
 const toggleStatus = async ({

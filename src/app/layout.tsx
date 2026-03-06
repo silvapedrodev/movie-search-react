@@ -3,6 +3,7 @@ import { Lato } from "next/font/google";
 import "./globals.css";
 import { Providers, SearchProvider } from "@/utils/provider";
 import { AuthProvider } from "@/context/auth-context";
+import { Toaster } from "@/components/ui/sonner";
 
 const lato = Lato({
   subsets: ["latin"],
@@ -28,6 +29,10 @@ export default function RootLayout({
           <AuthProvider>
             <SearchProvider>
               {children}
+              <Toaster
+                position="top-right"
+                richColors
+              />
             </SearchProvider>
           </AuthProvider>
         </Providers>
