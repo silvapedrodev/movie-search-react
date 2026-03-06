@@ -35,7 +35,7 @@ export const DailyGoal = () => {
         <CardTitle className="text-sm">Set Your Daily Goal</CardTitle>
       </CardHeader>
       <CardContent className="flex gap-2 items-center">
-        <InputContainer className="flex-1">
+        <InputContainer className="flex-1 bg-slate-800 border-slate-700">
           <Goal />
           <Input
             value={dailyGoal}
