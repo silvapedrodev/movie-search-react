@@ -3,12 +3,12 @@
 import { saveDailyGoal } from "@/actions/time-watch-actions"
 import { InputContainer } from "@/components/elements/input-container"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Goal } from "lucide-react"
 import { useState } from "react"
 import { toast } from "sonner"
-import { DashboardCard } from "./dashboard-card"
+import { DashboardCard } from "@/components/dashboard/dashboard-watch-time/dashboard-card"
 
 export const DailyGoal = () => {
   const [dailyGoal, setDailyGoal] = useState<number | "">("")
