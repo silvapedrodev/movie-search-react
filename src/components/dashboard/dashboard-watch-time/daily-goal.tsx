@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input"
 import { Goal } from "lucide-react"
 import { useState } from "react"
 import { toast } from "sonner"
+import { DashboardCard } from "./dashboard-card"
 
 export const DailyGoal = () => {
   const [dailyGoal, setDailyGoal] = useState<number | "">("")
@@ -30,7 +31,7 @@ export const DailyGoal = () => {
   }
 
   return (
-    <Card className="bg-slate-900 text-white border border-purple-900/30">
+    <DashboardCard>
       <CardHeader>
         <CardTitle className="text-sm">Set Your Daily Goal</CardTitle>
       </CardHeader>
@@ -60,6 +61,6 @@ export const DailyGoal = () => {
           {loading ? "Saving..." : "Save"}
         </Button>
       </CardContent>
-    </Card>
+    </DashboardCard>
   )
 }
