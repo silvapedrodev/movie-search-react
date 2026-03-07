@@ -9,10 +9,13 @@ import { Goal } from "lucide-react"
 import { useState } from "react"
 import { toast } from "sonner"
 import { DashboardCard } from "@/components/dashboard/dashboard-watch-time/dashboard-card"
+import { useQueryClient } from "@tanstack/react-query"
 
 export const DailyGoal = () => {
   const [dailyGoal, setDailyGoal] = useState<number | "">("")
   const [loading, setLoading] = useState(false)
+
+  const queryClient = useQueryClient()
 
   const handleSave = async () => {
     if (!dailyGoal) return
@@ -20,6 +23,7 @@ export const DailyGoal = () => {
     try {
       await saveDailyGoal(dailyGoal)
       toast.success("Daily goal saved!")
+      queryClient.invalidateQueries({ queryKey: ["daily-progress"] })
     } catch (err) {
       const message = err instanceof Error
         ? err.message

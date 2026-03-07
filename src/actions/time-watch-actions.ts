@@ -1,7 +1,6 @@
 "use server"
 
 import { getUserId } from "@/utils/get-user-id"
-import { SupabaseClient } from "@supabase/supabase-js"
 import z from "zod"
 
 const schema = z.object({
@@ -20,7 +19,8 @@ export const saveDailyGoal = async (minutes: number) => {
   if (error) throw new Error(error.message)
 }
 
-const getDailyContext = async (supabase: SupabaseClient, userId: string) => {
+export const getDailyContext = async () => {
+  const { supabase, userId } = await getUserId()
   const today = new Date().toISOString().split("T")[0]
 
   const [preferences, dailyWatch] = await Promise.all([
@@ -54,7 +54,7 @@ export const addWatchTime = async (minutes: number) => {
     today,
     goalMinutes,
     currentMinutes
-  } = await getDailyContext(supabase, userId)
+  } = await getDailyContext()
 
   if (goalMinutes === null) throw new Error("You need to set a daily goal first.")
 
@@ -87,7 +87,7 @@ export const removeWatchTime = async (minutes: number) => {
 
   const validatedMinutes = result.data.minutes
   const { supabase, userId } = await getUserId()
-  const { today, goalMinutes, currentMinutes } = await getDailyContext(supabase, userId)
+  const { today, goalMinutes, currentMinutes } = await getDailyContext()
 
   if (goalMinutes === null) throw new Error("You need to set a daily goal first.")
   if (currentMinutes === null) throw new Error("No watch time to remove")
