@@ -30,3 +30,16 @@ create table
 
 -- Ensure a user has only one row per media item
 create unique index if not exists user_media_user_media_unique on user_media (user_id, media_id, media_type);
+
+--  User daily watch table
+create table
+    if not exists user_daily_watch (
+        id uuid primary key default gen_random_uuid (),
+        user_id uuid not null references auth.users (id) on delete cascade,
+        date date not null default current_date,
+        total_minutes integer,
+        goal_met boolean not null default false,
+        created_at timestamptz not null default now (),
+        updated_at timestamptz not null default now (),
+        constraint user_daily_watch_unique unique (user_id, date)
+    );

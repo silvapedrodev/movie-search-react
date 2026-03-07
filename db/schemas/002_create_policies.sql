@@ -36,3 +36,19 @@ on user_media
 for all
 using (auth.uid() = user_id)
 with check (auth.uid() = user_id);
+
+-- User daily watch policies
+alter table user_daily_watch enable row level security;
+
+create policy "Select own daily watch"
+on user_daily_watch for select
+using (user_id = auth.uid());
+
+create policy "Insert own daily watch"
+on user_daily_watch for insert
+with check (user_id = auth.uid());
+
+create policy "Update own daily watch"
+on user_daily_watch for update
+using (user_id = auth.uid())
+with check (user_id = auth.uid());
