@@ -90,7 +90,7 @@ export const LogActivity = () => {
             <Button
               onClick={() => setTime({ hours: 0, minutes: 0, seconds: 0 })}
               disabled={isTimeEmpty || isLoading !== null}
-              className="bg-transparent px-3 text-slate-500 hover:text-white hover:bg-white/5 cursor-pointer"
+              className="bg-white/5 hover:bg-slate-600 px-3 text-slate-500 hover:text-white  cursor-pointer"
               title="Clear time"
             >
               <BrushCleaning />
