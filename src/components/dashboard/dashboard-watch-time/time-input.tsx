@@ -4,15 +4,15 @@ import { Input } from "@/components/ui/input"
 import { cn } from "@/lib/utils"
 
 type TimeInputProps = {
-  value: { hours: number; minutes: number; seconds: number }
-  onChange: (value: { hours: number; minutes: number; seconds: number }) => void
+  value: { hours: number; minutes: number }
+  onChange: (value: { hours: number; minutes: number }) => void
   className?: string
 }
 
 export const TimeInput = ({ value, onChange, className }: TimeInputProps) => {
 
   const handleChange = (
-    field: "hours" | "minutes" | "seconds",
+    field: "hours" | "minutes",
     raw: string,
     max: number
   ) => {
@@ -33,9 +33,8 @@ export const TimeInput = ({ value, onChange, className }: TimeInputProps) => {
   `
 
   const fields = [
-    { field: "hours",   max: 23, label: "h",   value: value.hours   },
-    { field: "minutes", max: 59, label: "min",  value: value.minutes },
-    { field: "seconds", max: 59, label: "seg",  value: value.seconds },
+    { field: "hours", max: 23, label: "h", value: value.hours },
+    { field: "minutes", max: 59, label: "min", value: value.minutes },
   ] as const
 
   return (

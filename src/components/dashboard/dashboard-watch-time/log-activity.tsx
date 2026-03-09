@@ -14,17 +14,14 @@ import { invalidateWatchQueries } from "@/utils/invalidate-watch-queries"
 import { DashboardCardTitle } from "@/components/dashboard/dashboard-watch-time/dashboard-card-title"
 
 export const LogActivity = () => {
-  const [time, setTime] = useState({ hours: 0, minutes: 0, seconds: 0 })
+  const [time, setTime] = useState({ hours: 0, minutes: 0 })
   const [isLoading, setIsLoading] = useState<"add" | "remove" | null>(null)
 
   const queryClient = useQueryClient()
 
-  const toMinutes = () => {
-    const total = time.hours * 60 + time.minutes + Math.round(time.seconds / 60)
-    return total === 0 && time.seconds > 0 ? 1 : total
-  }
+  const toMinutes = () => time.hours * 60 + time.minutes
 
-  const isTimeEmpty = time.hours === 0 && time.minutes === 0 && time.seconds === 0
+  const isTimeEmpty = time.hours === 0 && time.minutes === 0
 
   const handleAdd = async () => {
     if (isTimeEmpty) return
@@ -36,7 +33,7 @@ export const LogActivity = () => {
       } else {
         toast.success(`Added ${formatMinutes(added)}, your total today is ${formatMinutes(newTotal)}`)
       }
-      setTime({ hours: 0, minutes: 0, seconds: 0 })
+      setTime({ hours: 0, minutes: 0 })
       await invalidateWatchQueries(queryClient)
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Something went wrong.")
@@ -55,7 +52,7 @@ export const LogActivity = () => {
       } else {
         toast.success(`Removed ${formatMinutes(removed)}, your total today is ${formatMinutes(newTotal)}`)
       }
-      setTime({ hours: 0, minutes: 0, seconds: 0 })
+      setTime({ hours: 0, minutes: 0 })
       await invalidateWatchQueries(queryClient)
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Something went wrong.")
@@ -93,7 +90,7 @@ export const LogActivity = () => {
               }
             </Button>
             <Button
-              onClick={() => setTime({ hours: 0, minutes: 0, seconds: 0 })}
+              onClick={() => setTime({ hours: 0, minutes: 0 })}
               disabled={isTimeEmpty || isLoading !== null}
               className="bg-white/5 hover:bg-slate-600 px-3 text-slate-500 hover:text-white  cursor-pointer"
               title="Clear time"
