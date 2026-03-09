@@ -11,6 +11,7 @@ import { toast } from "sonner"
 import { DashboardCard } from "@/components/dashboard/dashboard-watch-time/dashboard-card"
 import { useQueryClient } from "@tanstack/react-query"
 import { DashboardCardTitle } from "@/components/dashboard/dashboard-watch-time/dashboard-card-title"
+import { invalidateWatchQueries } from "@/utils/invalidate-watch-queries"
 
 export const DailyGoal = () => {
   const [dailyGoal, setDailyGoal] = useState<number | "">("")
@@ -23,6 +24,7 @@ export const DailyGoal = () => {
     setLoading(true)
     try {
       await saveDailyGoal(dailyGoal)
+      await invalidateWatchQueries(queryClient)
       toast.success("Daily goal saved!")
       queryClient.invalidateQueries({ queryKey: ["daily-progress"] })
     } catch (err) {

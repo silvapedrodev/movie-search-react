@@ -12,12 +12,29 @@ const schema = z.object({
 export const saveDailyGoal = async (minutes: number) => {
   const { minutes: validatedMinutes } = schema.parse({ minutes })
   const { supabase, userId } = await getUserId()
+  const today = new Date().toISOString().split("T")[0]
 
   const { error } = await supabase
     .from("user_preferences")
     .upsert({ user_id: userId, daily_goal_minutes: validatedMinutes })
 
   if (error) throw new Error(error.message)
+
+  const { data: todayData } = await supabase
+    .from("user_daily_watch")
+    .select("id, total_minutes")
+    .eq("user_id", userId)
+    .eq("date", today)
+    .single()
+
+  if (!todayData) return
+
+  await supabase
+    .from("user_daily_watch")
+    .update({
+      goal_met: todayData.total_minutes !== null && todayData.total_minutes >= validatedMinutes,
+    })
+    .eq("id", todayData.id)
 }
 
 export const getDailyContext = async () => {
