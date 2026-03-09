@@ -1,16 +1,17 @@
 "use client"
 
-import { CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { CardContent } from "@/components/ui/card"
 import { DashboardCard } from "@/components/dashboard/dashboard-watch-time/dashboard-card"
 import { TimeInput } from "@/components/dashboard/dashboard-watch-time/time-input"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import { BrushCleaning, Minus, Plus } from "lucide-react"
+import { BrushCleaning, Clock, Minus, Plus } from "lucide-react"
 import { addWatchTime, removeWatchTime } from "@/actions/time-watch-actions"
 import { toast } from "sonner"
 import { formatMinutes } from "@/utils/format-minutes"
 import { useQueryClient } from "@tanstack/react-query"
 import { invalidateWatchQueries } from "@/utils/invalidate-watch-queries"
+import { DashboardCardTitle } from "@/components/dashboard/dashboard-watch-time/dashboard-card-title"
 
 export const LogActivity = () => {
   const [time, setTime] = useState({ hours: 0, minutes: 0, seconds: 0 })
@@ -65,9 +66,7 @@ export const LogActivity = () => {
 
   return (
     <DashboardCard className="bg-slate-900 text-white border border-purple-900/30">
-      <CardHeader>
-        <CardTitle className="text-sm">Log Watch Time</CardTitle>
-      </CardHeader>
+      <DashboardCardTitle label="Log Time" Icon={Clock} />
       <CardContent className="">
         <div className="flex flex-col items-center mx-auto gap-4 w-full max-w-xs">
           <TimeInput value={time} onChange={setTime} />

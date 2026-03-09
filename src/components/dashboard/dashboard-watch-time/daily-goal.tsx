@@ -3,13 +3,14 @@
 import { saveDailyGoal } from "@/actions/time-watch-actions"
 import { InputContainer } from "@/components/elements/input-container"
 import { Button } from "@/components/ui/button"
-import { CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { Goal } from "lucide-react"
+import { Goal, Target } from "lucide-react"
 import { useState } from "react"
 import { toast } from "sonner"
 import { DashboardCard } from "@/components/dashboard/dashboard-watch-time/dashboard-card"
 import { useQueryClient } from "@tanstack/react-query"
+import { DashboardCardTitle } from "@/components/dashboard/dashboard-watch-time/dashboard-card-title"
 
 export const DailyGoal = () => {
   const [dailyGoal, setDailyGoal] = useState<number | "">("")
@@ -36,9 +37,7 @@ export const DailyGoal = () => {
 
   return (
     <DashboardCard>
-      <CardHeader>
-        <CardTitle className="text-sm">Set Your Daily Goal</CardTitle>
-      </CardHeader>
+      <DashboardCardTitle label="Daily Goal" Icon={Target} />
       <CardContent className="flex gap-2 items-center">
         <InputContainer className="flex-1 bg-slate-800 border-slate-700">
           <Goal />

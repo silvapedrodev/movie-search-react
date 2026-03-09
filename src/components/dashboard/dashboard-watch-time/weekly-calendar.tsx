@@ -6,7 +6,8 @@ import { DashboardCard } from "@/components/dashboard/dashboard-watch-time/dashb
 import { getWeeklyProgress } from "@/actions/time-watch-actions"
 import { CheckCircle2, CircleDot, ListTodoIcon } from "lucide-react"
 import { WeeklyCalendarSkeleton } from "@/components/dashboard/dashboard-watch-time/skeletons/weekly-calendar-skeleton"
-import { CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { CardContent } from "@/components/ui/card"
+import { DashboardCardTitle } from "@/components/dashboard/dashboard-watch-time/dashboard-card-title"
 
 export const WeeklyCalendar = () => {
   const { data: days, isPending } = useQuery({
@@ -19,12 +20,7 @@ export const WeeklyCalendar = () => {
 
   return (
     <DashboardCard className="overflow-hidden">
-      <CardHeader>
-        <CardTitle className="text-sm flex items-center gap-2">
-          <ListTodoIcon />
-          Weekly Checklist
-        </CardTitle>
-      </CardHeader>
+      <DashboardCardTitle label=" Weekly Progress" Icon={ListTodoIcon} />
       <CardContent className="px-4">
         <div className="grid grid-cols-7">
           {days?.map(day => (
