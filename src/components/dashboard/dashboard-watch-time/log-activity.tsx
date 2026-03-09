@@ -10,6 +10,7 @@ import { addWatchTime, removeWatchTime } from "@/actions/time-watch-actions"
 import { toast } from "sonner"
 import { formatMinutes } from "@/utils/format-minutes"
 import { useQueryClient } from "@tanstack/react-query"
+import { invalidateWatchQueries } from "@/utils/invalidate-watch-queries"
 
 export const LogActivity = () => {
   const [time, setTime] = useState({ hours: 0, minutes: 0, seconds: 0 })
@@ -35,7 +36,7 @@ export const LogActivity = () => {
         toast.success(`Added ${formatMinutes(added)}, your total today is ${formatMinutes(newTotal)}`)
       }
       setTime({ hours: 0, minutes: 0, seconds: 0 })
-      queryClient.invalidateQueries({ queryKey: ["daily-progress"] })
+      await invalidateWatchQueries(queryClient)
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Something went wrong.")
     } finally {
@@ -54,7 +55,7 @@ export const LogActivity = () => {
         toast.success(`Removed ${formatMinutes(removed)}, your total today is ${formatMinutes(newTotal)}`)
       }
       setTime({ hours: 0, minutes: 0, seconds: 0 })
-      queryClient.invalidateQueries({ queryKey: ["daily-progress"] })
+      await invalidateWatchQueries(queryClient)
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Something went wrong.")
     } finally {

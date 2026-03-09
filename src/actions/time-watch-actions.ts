@@ -1,6 +1,7 @@
 "use server"
 
 import { getUserId } from "@/utils/get-user-id"
+import { getWeekDays } from "@/utils/get-week-days"
 import z from "zod"
 
 const schema = z.object({
@@ -94,6 +95,7 @@ export const removeWatchTime = async (minutes: number) => {
 
   const newTotal = currentMinutes - validatedMinutes
   const isInvalid = newTotal <= 0
+  const goalMet = !isInvalid && goalMinutes !== null && newTotal >= goalMinutes
 
   const { error } = await supabase
     .from("user_daily_watch")
@@ -101,7 +103,7 @@ export const removeWatchTime = async (minutes: number) => {
       user_id: userId,
       date: today,
       total_minutes: isInvalid ? null : newTotal,
-      goal_met: false,
+      goal_met: goalMet,
       updated_at: new Date().toISOString(),
     }, { onConflict: "user_id,date" })
     .eq("user_id", userId)
@@ -110,4 +112,26 @@ export const removeWatchTime = async (minutes: number) => {
   if (error) throw new Error(error.message)
 
   return { removed: validatedMinutes, newTotal: isInvalid ? null : newTotal }
+}
+
+export const getWeeklyProgress = async () => {
+  const { supabase, userId } = await getUserId()
+  const days = getWeekDays()
+  const start = days[0].date
+  const end = days[6].date
+
+  const { data, error } = await supabase
+    .from("user_daily_watch")
+    .select("date, total_minutes, goal_met")
+    .eq("user_id", userId)
+    .gte("date", start)
+    .lte("date", end)
+
+  if (error) throw new Error(error.message)
+
+  return days.map(day => ({
+    ...day,
+    totalMinutes: data?.find(d => d.date === day.date)?.total_minutes ?? null,
+    goalMet: data?.find(d => d.date === day.date)?.goal_met ?? false,
+  }))
 }
