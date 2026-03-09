@@ -2,6 +2,7 @@ import { DailyGoal } from "@/components/dashboard/dashboard-watch-time/daily-goa
 import { LogActivity } from "@/components/dashboard/dashboard-watch-time/log-activity"
 import { DailyProgress } from "@/components/dashboard/dashboard-watch-time/daily-progress"
 import { WeeklyCalendar } from "@/components/dashboard/dashboard-watch-time/weekly-calendar"
+import { WatchTimeChart } from "./charts/watch-time-chart"
 
 export const Index = () => {
   return (
@@ -11,6 +12,7 @@ export const Index = () => {
         <LogActivity />
         <WeeklyCalendar />
         <DailyGoal />
+        <WatchTimeChart />
       </div>
     </div>
   )

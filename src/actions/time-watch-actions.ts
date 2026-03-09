@@ -2,6 +2,7 @@
 
 import { getUserId } from "@/utils/get-user-id"
 import { getWeekDays } from "@/utils/get-week-days"
+import { SupabaseClient } from "@supabase/supabase-js"
 import z from "zod"
 
 const schema = z.object({
@@ -151,4 +152,82 @@ export const getWeeklyProgress = async () => {
     totalMinutes: data?.find(d => d.date === day.date)?.total_minutes ?? null,
     goalMet: data?.find(d => d.date === day.date)?.goal_met ?? false,
   }))
+}
+
+export type ChartPeriod = "days" | "months" | "years"
+
+const chartStrategies: Record<ChartPeriod, (supabase: SupabaseClient, userId: string) => Promise<{ label: string; minutes: number }[]>> = {
+  days: async (supabase, userId) => {
+    const today = new Date()
+    const start = new Date(today)
+    start.setDate(today.getDate() - 4)
+
+    const { data, error } = await supabase
+      .from("user_daily_watch")
+      .select("date, total_minutes")
+      .eq("user_id", userId)
+      .gte("date", start.toISOString().split("T")[0])
+      .order("date", { ascending: true })
+
+    if (error) throw new Error(error.message)
+
+    return data.map(row => {
+      const [year, month, day] = row.date.split("-").map(Number)
+      const date = new Date(year, month - 1, day)
+      return {
+        label: date.toLocaleDateString("en-US", { weekday: "short" }),
+        minutes: row.total_minutes ?? 0,
+      }
+    })
+  },
+
+  months: async (supabase, userId) => {
+    return Promise.all(
+      Array.from({ length: 5 }, async (_, i) => {
+        const date = new Date()
+        date.setMonth(date.getMonth() - (4 - i))
+        const year = date.getFullYear()
+        const month = date.getMonth() + 1
+        const start = `${year}-${String(month).padStart(2, "0")}-01`
+        const end = new Date(year, month, 0).toISOString().split("T")[0]
+
+        const { data } = await supabase
+          .from("user_daily_watch")
+          .select("total_minutes")
+          .eq("user_id", userId)
+          .gte("date", start)
+          .lte("date", end)
+
+        return {
+          label: date.toLocaleDateString("en-US", { month: "short" }),
+          minutes: data?.reduce((sum, r) => sum + (r.total_minutes ?? 0), 0) ?? 0,
+        }
+      })
+    )
+  },
+
+  years: async (supabase, userId) => {
+    return Promise.all(
+      Array.from({ length: 5 }, async (_, i) => {
+        const year = new Date().getFullYear() - (4 - i)
+
+        const { data } = await supabase
+          .from("user_daily_watch")
+          .select("total_minutes")
+          .eq("user_id", userId)
+          .gte("date", `${year}-01-01`)
+          .lte("date", `${year}-12-31`)
+
+        return {
+          label: String(year),
+          minutes: data?.reduce((sum, r) => sum + (r.total_minutes ?? 0), 0) ?? 0,
+        }
+      })
+    )
+  },
+}
+
+export const getChartData = async (period: ChartPeriod) => {
+  const { supabase, userId } = await getUserId()
+  return chartStrategies[period](supabase, userId)
 }
