@@ -84,3 +84,23 @@ export type MediaStatus = {
 }
 
 export type SortOption = "random" | "a-z" | "last"
+
+export type MediaCast = {
+  adult: boolean
+  gender: number
+  id: number
+  known_for_department: string
+  name: string
+  original_name: string
+  popularity: number
+  profile_path: string | null
+  cast_id?: number
+  character: string
+  credit_id: string
+  order: number
+}
+
+export type MediaCredits = {
+  id: number
+  cast: MediaCast[]
+}

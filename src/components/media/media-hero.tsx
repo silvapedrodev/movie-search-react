@@ -16,7 +16,7 @@ export const MediaHero = ({ data, rating, images }: Props) => {
   const title = data.title || data.name || "Poster"
 
   return (
-    <div className="relative w-full bg-black/90 h-[30vh] md:h-[70vh]">
+    <div className="relative w-full bg-black/90 min-h-[30vh] md:h-[70vh]">
       <Image
         src={getBackdropUrl(images?.backdrops?.[0]?.file_path)}
         alt={title}

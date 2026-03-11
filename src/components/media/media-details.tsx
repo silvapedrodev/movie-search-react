@@ -1,9 +1,11 @@
-import { GetImagesResult, MediaItem, MediaStatus, MediaType } from "@/types/tmdb";
+import { GetImagesResult, MediaCast, MediaItem, MediaStatus, MediaType } from "@/types/tmdb";
 import { MediaHero } from "@/components/media/media-hero";
 import { MediaStatusProvider } from "@/context/media-status-context";
+import { MediaExtras } from "./media-extras";
 
 type Props = {
   data: MediaItem
+  cast: MediaCast[]
   rating: string
   images: GetImagesResult | null
   initialStatus: MediaStatus
@@ -13,6 +15,7 @@ type Props = {
 
 export const MediaDetails = (
   { data,
+    cast,
     rating,
     images,
     initialStatus,
@@ -28,6 +31,7 @@ export const MediaDetails = (
     >
       <main>
         <MediaHero data={data} rating={rating} images={images} />
+        <MediaExtras mediaType={mediaType} cast={cast}/>
       </main>
     </MediaStatusProvider>
   )

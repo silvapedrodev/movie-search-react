@@ -1,4 +1,4 @@
-import { GetImagesResult, TmdbImagesResponse } from "@/types/tmdb"
+import { GetImagesResult, MediaCast, TmdbImagesResponse } from "@/types/tmdb"
 
 export async function tmdbFetch(path: string) {
   try {
@@ -60,6 +60,14 @@ export async function searchMulti(query: string) {
 
 export async function getItemByTmdbId(type: "movie" | "tv", id: number) {
   return tmdbFetch(`/${type}/${id}`);
+}
+
+export async function getCast(type: "movie" | "tv", id: number): Promise<MediaCast[]> {
+  const data = await tmdbFetch(`/${type}/${id}/credits`)
+
+  if (!data || !data.cast) return []
+
+  return (data.cast as MediaCast[])
 }
 
 export async function getRating(type: "movie" | "tv", id: number, country = "US"): Promise<string> {
