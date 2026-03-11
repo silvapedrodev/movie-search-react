@@ -1,4 +1,4 @@
-import { GetImagesResult, MediaCast, TmdbImagesResponse } from "@/types/tmdb"
+import { GetImagesResult, MediaCast, MediaVideo, MediaVideosResult, TmdbImagesResponse } from "@/types/tmdb"
 
 export async function tmdbFetch(path: string) {
   try {
@@ -84,4 +84,15 @@ export async function getRating(type: "movie" | "tv", id: number, country = "US"
     console.error("Error retrieving classification:", err)
     return "NR"
   }
+}
+
+export async function getVideosById(type: "movie" | "tv", id: number): Promise<MediaVideo | null> {
+  const data = await tmdbFetch(`/${type}/${id}/videos`) as MediaVideosResult
+
+  return (
+    data?.results
+      .find(v => v.type === "Trailer" 
+        &&v.official && v.site === "YouTube"
+      ) ?? null
+  )
 }

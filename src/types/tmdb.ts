@@ -104,3 +104,15 @@ export type MediaCredits = {
   id: number
   cast: MediaCast[]
 }
+
+export type MediaVideo = {
+  name: string
+  key: string
+  site: string
+  type: string 
+  official: boolean
+}
+
+export type MediaVideosResult = {
+  results: MediaVideo[]
+}
