@@ -1,16 +1,16 @@
 "use client"
 
 import { useRef, useState } from "react"
-import { MovieOrSerie } from "@/types/tmdb"
 import { ScrollButton } from "@/components/elements/scroll-button"
-import { MediaCard } from "@/components/home/media/media-card"
 
-type Props = {
-  title: string
-  items: MovieOrSerie[]
+type Props<T> = {
+  title?: string
+  items: T[]
+  renderItem: (item: T, preventClick: boolean, index: number) => React.ReactNode
+  limit?: number
 }
 
-export const HorizontalList = ({ title, items }: Props) => {
+export const HorizontalList = <T,>({ title, limit, items, renderItem }: Props<T>) => {
   const [preventClick, setPreventClick] = useState(false)
 
   const listRef = useRef<HTMLDivElement>(null)
@@ -55,7 +55,9 @@ export const HorizontalList = ({ title, items }: Props) => {
 
   return (
     <section className="my-8 px-4 relative">
-      <h2 className="text-xl font-semibold mb-4">{title}</h2>
+      {title &&
+        <h2 className="text-xl font-semibold mb-4">{title}</h2>
+      }
 
       <ScrollButton direction="left" onClick={scrollLeftBtn} />
       <ScrollButton direction="right" onClick={scrollRightBtn} />
@@ -68,9 +70,9 @@ export const HorizontalList = ({ title, items }: Props) => {
         onPointerMove={handlePointerMove}
         className={`flex gap-4 overflow-x-auto no-scrollbar cursor-grab select-none`}
       >
-        {items.map(item => (
-          <MediaCard key={item.id} data={item} preventClick={preventClick} />
-        ))}
+        {(limit ? items.slice(0, limit) : items)
+          .map((item, index) => renderItem(item, preventClick, index))
+        }
       </div>
     </section>
   )

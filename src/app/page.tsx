@@ -1,7 +1,7 @@
 import { FooterHome } from "@/components/home/footer";
 import { ContentWrapper } from "@/components/home/content-wrapper";
-import { HorizontalList } from "@/components/home/horizontal-list";
 import { getAllTrending, getPopular } from "@/lib/tmdb";
+import { MediaList } from "@/components/media/media-list";
 
 export default async function Page() {
   const trendingData = await getAllTrending("week")
@@ -14,15 +14,15 @@ export default async function Page() {
     <main>
       <ContentWrapper heroData={trendingData?.results || []}>
         <>
-          <HorizontalList
+          <MediaList
             title="Trending"
             items={getTrendingSectionData.results}
           />
-          <HorizontalList
+          <MediaList
             title="Popular - Movies"
             items={getPopularMovieSectionData.results}
           />
-          <HorizontalList
+          <MediaList
             title="Popular - Series"
             items={getPopularTvSectionData.results}
           />
