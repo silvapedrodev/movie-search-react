@@ -54,7 +54,7 @@ export const HorizontalList = <T,>({ title, limit, items, renderItem }: Props<T>
 
 
   return (
-    <section className="my-8 px-4 relative">
+    <section className="px-4 relative">
       {title &&
         <h2 className="text-xl font-semibold mb-4">{title}</h2>
       }

@@ -17,7 +17,7 @@ export const MediaExtras = ({ mediaType, cast, video }: MediaExtrasProps) => {
 
       {cast?.length > 0 &&
         <div>
-          <h2 className="px-4 md:px-12 font-bold text-2xl md:text-5xl capitalize">{mediaType} cast</h2>
+          <h2 className="px-4 md:px-12 font-bold text-2xl md:text-4xl capitalize">{mediaType} cast</h2>
           <MediaCastList items={cast} />
         </div>
       }

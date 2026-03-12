@@ -13,7 +13,7 @@ export const MediaTrailer = ({ video }: { video: MediaVideo | null }) => {
       <div>
         <h2 className="px-4 md:px-12 font-bold text-2xl md:text-4xl capitalize">Official Trailer</h2>
         <div className="p-4 flex justify-center">
-          <button
+          <div
             className="relative w-full max-w-4xl mx-auto aspect-video group rounded-lg cursor-pointer"
             style={{
               backgroundImage: `url(https://i.ytimg.com/vi/${video?.key}/hqdefault.jpg)`,
@@ -31,7 +31,7 @@ export const MediaTrailer = ({ video }: { video: MediaVideo | null }) => {
                 />
               </span>
             </div>
-          </button>
+          </div>
         </div>
       </div>
 

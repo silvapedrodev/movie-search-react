@@ -9,12 +9,16 @@ type Props = {
   items: MovieOrSerie[]
 }
 
-export const MediaList = ({ title, items }: Props) => (
-  <HorizontalList
-    title={title}
-    items={items}
-    renderItem={(item, preventClick, index) => (
-      <MediaCard key={index} data={item} preventClick={preventClick} />
-    )}
-  />
-)
+export const MediaList = ({ title, items }: Props) => {
+  return (
+    <div className="my-8">
+      <HorizontalList
+        title={title}
+        items={items}
+        renderItem={(item, preventClick, index) => (
+          <MediaCard key={index} data={item} preventClick={preventClick} />
+        )}
+      />
+    </div>
+  )
+}
