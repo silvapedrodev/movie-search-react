@@ -14,7 +14,7 @@ export const MediaTrailer = ({ video }: { video: MediaVideo | null }) => {
         <h2 className="px-4 md:px-12 font-bold text-2xl md:text-4xl capitalize">Official Trailer</h2>
         <div className="p-4 flex justify-center">
           <div
-            className="relative w-full max-w-4xl mx-auto aspect-video group rounded-lg cursor-pointer"
+            className="relative w-full max-w-4xl mx-auto aspect-video group rounded-lg cursor-pointer drop-shadow-[1px_1px_20px_rgba(151,71,255,0.1)]"
             style={{
               backgroundImage: `url(https://i.ytimg.com/vi/${video?.key}/hqdefault.jpg)`,
               backgroundSize: "cover",
