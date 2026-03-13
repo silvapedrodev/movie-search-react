@@ -70,6 +70,11 @@ export async function getCast(type: "movie" | "tv", id: number): Promise<MediaCa
   return (data.cast as MediaCast[])
 }
 
+export async function getRecommendedMedia(type: "movie" | "tv", id: number) {
+  const data = await tmdbFetch(`/${type}/${id}/similar`)
+  return data.results 
+}
+
 export async function getRating(type: "movie" | "tv", id: number, country = "US"): Promise<string> {
   try {
     const endpoint = type === "movie" ? `/movie/${id}/release_dates` : `/tv/${id}/content_ratings`;
@@ -91,8 +96,8 @@ export async function getVideosById(type: "movie" | "tv", id: number): Promise<M
 
   return (
     data?.results
-      .find(v => v.type === "Trailer" 
-        &&v.official && v.site === "YouTube"
+      .find(v => v.type === "Trailer"
+        && v.official && v.site === "YouTube"
       ) ?? null
   )
 }

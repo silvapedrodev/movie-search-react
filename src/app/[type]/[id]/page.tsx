@@ -1,6 +1,6 @@
 import { MediaDetails } from "@/components/media/media-details";
 import { getMediaStatus } from "@/lib/media-status";
-import { getCast, getImages, getItemByTmdbId, getRating, getVideosById } from "@/lib/tmdb";
+import { getCast, getImages, getItemByTmdbId, getRating, getRecommendedMedia, getVideosById } from "@/lib/tmdb";
 import { Metadata } from "next";
 
 type Props = {
@@ -25,19 +25,21 @@ export default async function Page({ params }: Props) {
   const mediaType = type === "tv" ? "tv" : "movie"
   const tmdbId = Number(id);
 
-  const [data, cast, rating, images, initialStatus, videos] = await Promise.all([
+  const [data, cast, rating, images, initialStatus, videos, recommendation] = await Promise.all([
     getItemByTmdbId(mediaType, tmdbId),
     getCast(mediaType, tmdbId),
     getRating(mediaType, tmdbId),
     getImages(mediaType, tmdbId),
     getMediaStatus({ mediaType, mediaId: tmdbId }),
     getVideosById(mediaType, tmdbId),
+    getRecommendedMedia(mediaType, tmdbId)
   ])
 
   return (
     <MediaDetails
       data={data}
       cast={cast}
+      recommendation={recommendation}
       rating={rating}
       images={images}
       videos={videos}

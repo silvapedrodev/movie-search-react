@@ -1,14 +1,16 @@
-import { MediaCast, MediaVideo } from "@/types/tmdb"
+import { MediaCast, MediaVideo, MovieOrSerie, SearchMultiItem } from "@/types/tmdb"
 import { MediaCastList } from "@/components/media/cast/media-cast-list"
 import { MediaTrailer } from "@/components/media/trailer/media-trailer"
+import { MediaRecommendation } from "@/components/media/recommendations/media-recommendation"
 
 type MediaExtrasProps = {
   mediaType: string
   cast: MediaCast[]
+  recommendation: MovieOrSerie[]
   video: MediaVideo | null
 }
 
-export const MediaExtras = ({ mediaType, cast, video }: MediaExtrasProps) => {
+export const MediaExtras = ({ mediaType, cast, video, recommendation }: MediaExtrasProps) => {
   return (
     <div className="mt-[50vh] md:mt-0 md:py-10">
       {video?.key &&
@@ -22,7 +24,7 @@ export const MediaExtras = ({ mediaType, cast, video }: MediaExtrasProps) => {
         </div>
       }
 
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam, facere ut velit iste officiis iure eveniet molestias, vero eligendi, quos amet dolore aperiam voluptatem dolores libero quidem a vel id.
+      <MediaRecommendation items={recommendation} />
     </div>
   )
 }
