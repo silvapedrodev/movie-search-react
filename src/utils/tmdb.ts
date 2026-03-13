@@ -10,7 +10,7 @@ export function getBackdropUrl(
   path: string | null | undefined,
   size: BackdropSize = "w1280"
 ) {
-  if (!path) return "/placeholder.png"
+  if (!path) return "https://placehold.net/default.svg"
   return `${TMDB_IMAGE_BASE_URL}/${size}${path}`
 }
 
@@ -18,7 +18,7 @@ export function getPosterUrl(
   path: string | null | undefined,
   size: PosterSize = "w500"
 ) {
-  if (!path) return "/placeholder.png"
+  if (!path) return "https://placehold.net/default.svg"
   return `${TMDB_IMAGE_BASE_URL}/${size}${path}`
 }
 
@@ -26,7 +26,7 @@ export function getLogoUrl(
   path: string | null | undefined,
   size: LogoSize = "w300"
 ) {
-  if (!path) return "/placeholder.png"
+  if (!path) return "https://placehold.net/default.svg"
   return `${TMDB_IMAGE_BASE_URL}/${size}${path}`
 }
 
