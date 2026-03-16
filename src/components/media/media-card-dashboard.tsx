@@ -2,7 +2,7 @@
 
 import Image from "next/image"
 import { MediaItem, MediaType } from "@/types/tmdb"
-import { formatRuntime, getPosterUrl, getYear } from "@/utils/tmdb"
+import { formatRuntime, getTmdbImageUrl, getYear } from "@/utils/tmdb"
 import Link from "next/link"
 import { FileText } from "lucide-react"
 import UserScore from "@/components/elements/user-score"
@@ -19,7 +19,7 @@ export const MediaCardDashboard = ({ data, mediaType }: Props) => {
     <div className="flex bg-slate-800 rounded-lg overflow-hidden shadow-lg">
       <div className="relative shrink-0 w-32 min-w-[375]:w-32 sm:w-32 md:w-40 aspect-2/3">
         <Image
-          src={getPosterUrl(data.poster_path)}
+          src={getTmdbImageUrl(data.poster_path)}
           alt={data.title || data.name || "Unknown"}
           fill
           sizes="160px"

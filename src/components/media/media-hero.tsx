@@ -1,6 +1,6 @@
 import Image from "next/image"
 import { GetImagesResult, MediaItem } from "@/types/tmdb"
-import { getBackdropUrl } from "@/utils/tmdb"
+import { getTmdbImageUrl } from "@/utils/tmdb"
 import UserScore from "@/components/elements/user-score"
 import { MediaMeta } from "@/components/media/media-meta"
 import { MediaActions } from "@/components/media/media-actions"
@@ -18,7 +18,7 @@ export const MediaHero = ({ data, rating, images }: Props) => {
   return (
     <div className="relative w-full bg-black/90 min-h-[30vh] md:h-[70vh]">
       <Image
-        src={getBackdropUrl(images?.backdrops?.[0]?.file_path)}
+        src={getTmdbImageUrl(images?.backdrops?.[0]?.file_path)}
         alt={title}
         fill
         sizes="(max-width: 768px) 780px, (max-width: 1280px) 1280px, 100vw"
@@ -32,7 +32,7 @@ export const MediaHero = ({ data, rating, images }: Props) => {
         {/* Poster */}
         <div className="relative w-32 md:w-100 aspect-2/3">
           <Image
-            src={getBackdropUrl(images?.posters?.[0]?.file_path)}
+            src={getTmdbImageUrl(images?.posters?.[0]?.file_path)}
             alt={title}
             fill
             className="object-cover rounded-lg"

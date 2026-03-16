@@ -2,7 +2,7 @@
 
 import Image from "next/image"
 import { MediaCast } from "@/types/tmdb"
-import { getPosterUrl } from "@/utils/tmdb"
+import { getTmdbImageUrl } from "@/utils/tmdb"
 
 type Props = {
   data: MediaCast
@@ -24,7 +24,7 @@ export const MediaCastCard = ({ data, preventClick }: Props) => {
     >
       <div className="relative aspect-2/3">
         <Image
-          src={getPosterUrl(data.profile_path)}
+          src={getTmdbImageUrl(data.profile_path)}
           alt={data.name || "Unknown"}
           draggable={false}
           fill

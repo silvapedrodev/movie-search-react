@@ -1,32 +1,25 @@
 import { MovieOrSerie } from "@/types/tmdb"
 
-type BackdropSize = "w300" | "w780" | "w1280" | "original"
-type PosterSize = "w92" | "w154" | "w185" | "w342" | "w500" | "w780" | "original"
-type LogoSize = "w45" | "w92" | "w154" | "w185" | "w300" | "w500" | "original"
+type TmdbImageSize =
+  | "w45"
+  | "w92"
+  | "w154"
+  | "w185"
+  | "w300"
+  | "w342"
+  | "w500"
+  | "w780"
+  | "w1280"
+  | "original"
 
 const TMDB_IMAGE_BASE_URL = "https://image.tmdb.org/t/p"
+const FALLBACK_IMAGE = "https://placehold.net/default.svg"
 
-export function getBackdropUrl(
+export function getTmdbImageUrl(
   path: string | null | undefined,
-  size: BackdropSize = "w1280"
+  size: TmdbImageSize = "original"
 ) {
-  if (!path) return "https://placehold.net/default.svg"
-  return `${TMDB_IMAGE_BASE_URL}/${size}${path}`
-}
-
-export function getPosterUrl(
-  path: string | null | undefined,
-  size: PosterSize = "w500"
-) {
-  if (!path) return "https://placehold.net/default.svg"
-  return `${TMDB_IMAGE_BASE_URL}/${size}${path}`
-}
-
-export function getLogoUrl(
-  path: string | null | undefined,
-  size: LogoSize = "w300"
-) {
-  if (!path) return "https://placehold.net/default.svg"
+  if (!path) return FALLBACK_IMAGE
   return `${TMDB_IMAGE_BASE_URL}/${size}${path}`
 }
 

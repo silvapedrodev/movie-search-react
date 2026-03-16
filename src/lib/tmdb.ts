@@ -1,4 +1,5 @@
-import { GetImagesResult, MediaCast, MediaVideo, MediaVideosResult, TmdbImagesResponse } from "@/types/tmdb"
+import { GetImagesResult, MediaCast, MediaVideo, MediaVideosResult, MovieOrSerie, TmdbImagesResponse } from "@/types/tmdb"
+import { redirect } from "next/navigation"
 
 export async function tmdbFetch(path: string) {
   try {
@@ -13,18 +14,18 @@ export async function tmdbFetch(path: string) {
 
     if (!res.ok) {
       console.error(`TMDB fetch failed: ${res.status} ${res.statusText}`)
-      return null
+      redirect("/")
     }
 
     return res.json()
   } catch (error) {
     console.error("TMDB fetch error:", error)
-    return null
+    redirect("/")
   }
 }
 
 export async function getImages(type: string, id: number): Promise<GetImagesResult | null> {
-  const data = await tmdbFetch(`/${type}/${id}/images`)
+  const data = await tmdbFetch(`/${type}/${id}/images?include_image_language=en,null`)
 
   if (!data) return null
 
@@ -72,7 +73,10 @@ export async function getCast(type: "movie" | "tv", id: number): Promise<MediaCa
 
 export async function getRecommendedMedia(type: "movie" | "tv", id: number) {
   const data = await tmdbFetch(`/${type}/${id}/similar`)
-  return data.results 
+  return data.results.map((item: MovieOrSerie) => ({
+    ...item,
+    media_type: type
+  }))
 }
 
 export async function getRating(type: "movie" | "tv", id: number, country = "US"): Promise<string> {
