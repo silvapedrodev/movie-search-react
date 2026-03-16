@@ -1,4 +1,5 @@
 import { GetImagesResult, MediaCast, MediaVideo, MediaVideosResult, MovieOrSerie, TmdbImagesResponse } from "@/types/tmdb"
+import { isRedirectError } from "next/dist/client/components/redirect-error"
 import { redirect } from "next/navigation"
 
 export async function tmdbFetch(path: string) {
@@ -19,6 +20,7 @@ export async function tmdbFetch(path: string) {
 
     return res.json()
   } catch (error) {
+    if (isRedirectError(error)) throw error 
     console.error("TMDB fetch error:", error)
     redirect("/")
   }

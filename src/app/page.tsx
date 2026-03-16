@@ -4,12 +4,18 @@ import { getAllTrending, getPopular } from "@/lib/tmdb";
 import { MediaList } from "@/components/media/media-list";
 
 export default async function Page() {
-  const trendingData = await getAllTrending("week")
-
-  const getTrendingSectionData = await getAllTrending()
-  const getPopularMovieSectionData = await getPopular("movie", "week")
-  const getPopularTvSectionData = await getPopular("tv", "week")
-
+  const [
+    trendingData,
+    getTrendingSectionData,
+    getPopularMovieSectionData,
+    getPopularTvSectionData,
+  ] = await Promise.all([
+    getAllTrending("week"),
+    getAllTrending(),
+    getPopular("movie", "week"),
+    getPopular("tv", "week"),
+  ])
+  
   return (
     <main>
       <ContentWrapper heroData={trendingData?.results || []}>

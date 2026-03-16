@@ -27,7 +27,7 @@ export const MediaCard = ({ data, preventClick}: Props) => {
     >
       <div className="relative aspect-2/3">
         <Image
-          src={getTmdbImageUrl(data.poster_path)}
+          src={getTmdbImageUrl(data.poster_path, "w185")}
           alt={data.title || data.name || "Unknown"}
           draggable={false}
           fill

@@ -18,9 +18,10 @@ export const MediaHero = ({ data, rating, images }: Props) => {
   return (
     <div className="relative w-full bg-black/90 min-h-[30vh] md:h-[70vh]">
       <Image
-        src={getTmdbImageUrl(images?.backdrops?.[0]?.file_path)}
+        src={getTmdbImageUrl(images?.backdrops?.[0]?.file_path, "w1280")}
         alt={title}
         fill
+        priority
         sizes="(max-width: 768px) 780px, (max-width: 1280px) 1280px, 100vw"
         className="object-cover md:object-top"
       />
