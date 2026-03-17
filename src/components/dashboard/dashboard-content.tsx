@@ -8,7 +8,7 @@ import { useAuth } from "@/context/auth-context"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { Index } from "@/components/dashboard/dashboard-watch-time"
-import { WeeklyCalendarSkeleton } from "./dashboard-watch-time/skeletons/weekly-calendar-skeleton"
+import { MediaCardDashboardSkeleton } from "@/components/dashboard/dashboard-watch-time/skeletons/media-card-dashboard-skeleton"
 
 type DashboardView = "list" | "time"
 
@@ -27,7 +27,7 @@ export const DashboardContent = () => {
   const [currentTab, setCurrentTab] = useState<DashboardView>('list')
   const router = useRouter()
 
-  if (!isReady || !isLoggedIn) return // render skeleton
+  if (!isReady || !isLoggedIn) return <MediaCardDashboardSkeleton />
 
   const ActiveComponente = tabComponent[currentTab]
 
