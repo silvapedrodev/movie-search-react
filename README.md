@@ -13,6 +13,7 @@
 
 - [Description](#description)
 - [Screenshot](#screenshot)
+- [Live Demo](#live-demo)
 - [Project Structure](#project-structure)
 - [Key features](#key-features)
 - [Routes](#routes)
@@ -24,6 +25,10 @@
 ## Description
 
 Movie Search is an application that consumes the **TMDB API**. It lists **movies and TV shows**, lets you view **details** about them (including **cast**), and allows you to **save titles to watch later** (watchlist/seen). It also lets you log **how much time you watched each day**, so you can track how many minutes/hours you consumed per **day / month / year**.
+
+## Live Demo
+
+👉 [View the project online](https://movie-search-dev.netlify.app/)
 
 ## Screenshot
 
