@@ -7,12 +7,15 @@ import { getDailyContext } from "@/actions/time-watch-actions"
 import { formatMinutes } from "@/utils/format-minutes"
 import { useQuery } from "@tanstack/react-query"
 import { DailyProgressSkeleton } from "@/components/dashboard/dashboard-watch-time/skeletons/daily-progress-skeleton"
+import { useClientTimeContext } from "@/hooks/use-client-time-context"
 
 
 export const DailyProgress = () => {
+  const timeContext = useClientTimeContext()
+
   const { data, isLoading } = useQuery({
-    queryKey: ["daily-progress"],
-    queryFn: getDailyContext,
+    queryKey: ["daily-progress", timeContext.localDate, timeContext.timeZone],
+    queryFn: () => getDailyContext(timeContext),
     staleTime: Infinity,
   })
 
