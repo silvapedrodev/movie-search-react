@@ -12,10 +12,12 @@ import { formatMinutes } from "@/utils/format-minutes"
 import { useQueryClient } from "@tanstack/react-query"
 import { invalidateWatchQueries } from "@/utils/invalidate-watch-queries"
 import { DashboardCardTitle } from "@/components/dashboard/dashboard-watch-time/dashboard-card-title"
+import { useClientTimeContext } from "@/hooks/use-client-time-context"
 
 export const LogActivity = () => {
   const [time, setTime] = useState({ hours: 0, minutes: 0 })
   const [isLoading, setIsLoading] = useState<"add" | "remove" | null>(null)
+  const timeContext = useClientTimeContext()
 
   const queryClient = useQueryClient()
 
@@ -27,7 +29,7 @@ export const LogActivity = () => {
     if (isTimeEmpty) return
     setIsLoading("add")
     try {
-      const { added, newTotal, goalMet } = await addWatchTime(toMinutes())
+      const { added, newTotal, goalMet } = await addWatchTime(toMinutes(), timeContext)
       if (goalMet) {
         toast.success(`Goal reached! You added ${formatMinutes(added)}, your total today is ${formatMinutes(newTotal)} 🎉`)
       } else {
@@ -46,7 +48,7 @@ export const LogActivity = () => {
     if (isTimeEmpty) return
     setIsLoading("remove")
     try {
-      const { removed, newTotal } = await removeWatchTime(toMinutes())
+      const { removed, newTotal } = await removeWatchTime(toMinutes(), timeContext)
       if (newTotal === null) {
         toast.success(`Removed ${formatMinutes(removed)}, your watch time has been cleared for today`)
       } else {

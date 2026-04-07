@@ -10,6 +10,7 @@ import { useQuery } from "@tanstack/react-query"
 import { useState } from "react"
 import { BarChart2 } from "lucide-react"
 import { DashboardCardTitle } from "@/components/dashboard/dashboard-watch-time/dashboard-card-title"
+import { useClientTimeContext } from "@/hooks/use-client-time-context"
 
 const chartConfig = {
   minutes: {
@@ -26,10 +27,11 @@ const periods: { label: string; value: ChartPeriod }[] = [
 
 export const WatchTimeChart = () => {
   const [period, setPeriod] = useState<ChartPeriod>("days")
+  const timeContext = useClientTimeContext()
 
   const { data } = useQuery({
-    queryKey: ["chart", period],
-    queryFn: () => getChartData(period),
+    queryKey: ["chart", period, timeContext.localDate, timeContext.timeZone],
+    queryFn: () => getChartData(period, timeContext),
     staleTime: Infinity,
   })
 
@@ -41,6 +43,7 @@ export const WatchTimeChart = () => {
           {periods.map(p => (
             <button
               key={p.value}
+              type="button"
               onClick={() => setPeriod(p.value)}
               className={`text-xs px-3 py-1 rounded-full transition-colors cursor-pointer
                 ${period === p.value

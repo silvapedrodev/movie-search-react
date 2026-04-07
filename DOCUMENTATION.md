@@ -155,6 +155,11 @@ Open **SQL Editor** and run the files **in this order**:
    - Creates RPC: `toggle_media_status(p_user_id, p_media_id, p_media_type, p_target_status)`
    - Return values: `'watchlist' | 'seen' | 'removed'`
 
+5. `db/schemas/005_add_timezone_to_user_daily_watch.sql`
+   - Adds columns to `user_daily_watch`:
+     - `timezone` (IANA timezone, e.g. `America/Sao_Paulo`)
+     - `utc_offset_minutes` (offset at log time, e.g. `-180`)
+
 ### RPC note (permissions / behavior)
 
 `toggle_media_status` is defined as `security definer`. Ensure that:
@@ -196,6 +201,8 @@ Unique index: `(user_id, media_id, media_type)`
 - `date` (date, default current_date)
 - `total_minutes` (integer, nullable)
 - `goal_met` (boolean, default false)
+- `timezone` (text, stores user's timezone at save time)
+- `utc_offset_minutes` (integer, stores user's UTC offset at save time)
 - `created_at` / `updated_at`
 
 Unique constraint: `(user_id, date)`

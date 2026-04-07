@@ -8,11 +8,14 @@ import { CheckCircle2, CircleDot, ListTodoIcon } from "lucide-react"
 import { WeeklyCalendarSkeleton } from "@/components/dashboard/dashboard-watch-time/skeletons/weekly-calendar-skeleton"
 import { CardContent } from "@/components/ui/card"
 import { DashboardCardTitle } from "@/components/dashboard/dashboard-watch-time/dashboard-card-title"
+import { useClientTimeContext } from "@/hooks/use-client-time-context"
 
 export const WeeklyCalendar = () => {
+  const timeContext = useClientTimeContext()
+
   const { data: days, isPending } = useQuery({
-    queryKey: ["weekly-progress"],
-    queryFn: getWeeklyProgress,
+    queryKey: ["weekly-progress", timeContext.localDate, timeContext.timeZone],
+    queryFn: () => getWeeklyProgress(timeContext),
     staleTime: Infinity,
   })
 

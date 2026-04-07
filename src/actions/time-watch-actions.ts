@@ -2,7 +2,7 @@
 
 import { getUserId } from "@/utils/get-user-id"
 import { getWeekDays } from "@/utils/get-week-days"
-import { SupabaseClient } from "@supabase/supabase-js"
+import type { SupabaseClient } from "@supabase/supabase-js"
 import z from "zod"
 
 const schema = z.object({
@@ -10,10 +10,44 @@ const schema = z.object({
     "You can't log more than 23h 59min at once."), // max 24h
 })
 
-export const saveDailyGoal = async (minutes: number) => {
+const timeContextSchema = z.object({
+  localDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+  timeZone: z.string().min(1).max(128),
+  utcOffsetMinutes: z.number().int().min(-840).max(840),
+})
+
+export type TimeContext = z.infer<typeof timeContextSchema>
+
+const formatDateKey = (date: Date) => {
+  const year = date.getUTCFullYear()
+  const month = String(date.getUTCMonth() + 1).padStart(2, "0")
+  const day = String(date.getUTCDate()).padStart(2, "0")
+  return `${year}-${month}-${day}`
+}
+
+const parseDateKey = (dateKey: string) => {
+  const [year, month, day] = dateKey.split("-").map(Number)
+  const parsed = new Date(Date.UTC(year, month - 1, day))
+  return Number.isNaN(parsed.getTime()) ? null : parsed
+}
+
+const getSafeTimeContext = (context?: TimeContext) => {
+  const parsed = timeContextSchema.safeParse(context)
+  if (parsed.success) return parsed.data
+
+  const now = new Date()
+  return {
+    localDate: `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`,
+    timeZone: "UTC",
+    utcOffsetMinutes: 0,
+  }
+}
+
+export const saveDailyGoal = async (minutes: number, context?: TimeContext) => {
   const { minutes: validatedMinutes } = schema.parse({ minutes })
   const { supabase, userId } = await getUserId()
-  const today = new Date().toISOString().split("T")[0]
+  const timeContext = getSafeTimeContext(context)
+  const today = timeContext.localDate
 
   const { error } = await supabase
     .from("user_preferences")
@@ -38,9 +72,10 @@ export const saveDailyGoal = async (minutes: number) => {
     .eq("id", todayData.id)
 }
 
-export const getDailyContext = async () => {
+export const getDailyContext = async (context?: TimeContext) => {
   const { supabase, userId } = await getUserId()
-  const today = new Date().toISOString().split("T")[0]
+  const timeContext = getSafeTimeContext(context)
+  const today = timeContext.localDate
 
   const [preferences, dailyWatch] = await Promise.all([
     supabase
@@ -63,17 +98,18 @@ export const getDailyContext = async () => {
   }
 }
 
-export const addWatchTime = async (minutes: number) => {
+export const addWatchTime = async (minutes: number, context?: TimeContext) => {
   const result = schema.safeParse({ minutes })
   if (!result.success) throw new Error(result.error.issues[0].message)
 
   const validatedMinutes = result.data.minutes
   const { supabase, userId } = await getUserId()
+  const timeContext = getSafeTimeContext(context)
   const {
     today,
     goalMinutes,
     currentMinutes
-  } = await getDailyContext()
+  } = await getDailyContext(timeContext)
 
   if (goalMinutes === null) throw new Error("You need to set a daily goal first.")
 
@@ -90,6 +126,8 @@ export const addWatchTime = async (minutes: number) => {
       date: today,
       total_minutes: newTotal,
       goal_met: goalMet,
+      timezone: timeContext.timeZone,
+      utc_offset_minutes: timeContext.utcOffsetMinutes,
       updated_at: new Date().toISOString(),
     }, { onConflict: "user_id,date" })
     .eq("user_id", userId)
@@ -100,13 +138,14 @@ export const addWatchTime = async (minutes: number) => {
   return { added: validatedMinutes, newTotal, goalMet }
 }
 
-export const removeWatchTime = async (minutes: number) => {
+export const removeWatchTime = async (minutes: number, context?: TimeContext) => {
   const result = schema.safeParse({ minutes })
   if (!result.success) throw new Error(result.error.issues[0].message)
 
   const validatedMinutes = result.data.minutes
   const { supabase, userId } = await getUserId()
-  const { today, goalMinutes, currentMinutes } = await getDailyContext()
+  const timeContext = getSafeTimeContext(context)
+  const { today, goalMinutes, currentMinutes } = await getDailyContext(timeContext)
 
   if (goalMinutes === null) throw new Error("You need to set a daily goal first.")
   if (currentMinutes === null) throw new Error("No watch time to remove")
@@ -122,6 +161,8 @@ export const removeWatchTime = async (minutes: number) => {
       date: today,
       total_minutes: isInvalid ? null : newTotal,
       goal_met: goalMet,
+      timezone: timeContext.timeZone,
+      utc_offset_minutes: timeContext.utcOffsetMinutes,
       updated_at: new Date().toISOString(),
     }, { onConflict: "user_id,date" })
     .eq("user_id", userId)
@@ -132,9 +173,10 @@ export const removeWatchTime = async (minutes: number) => {
   return { removed: validatedMinutes, newTotal: isInvalid ? null : newTotal }
 }
 
-export const getWeeklyProgress = async () => {
+export const getWeeklyProgress = async (context?: TimeContext) => {
   const { supabase, userId } = await getUserId()
-  const days = getWeekDays()
+  const timeContext = getSafeTimeContext(context)
+  const days = getWeekDays(timeContext.localDate)
   const start = days[0].date
   const end = days[6].date
 
@@ -156,40 +198,43 @@ export const getWeeklyProgress = async () => {
 
 export type ChartPeriod = "days" | "months" | "years"
 
-const chartStrategies: Record<ChartPeriod, (supabase: SupabaseClient, userId: string) => Promise<{ label: string; minutes: number }[]>> = {
-  days: async (supabase, userId) => {
-    const today = new Date()
+const chartStrategies: Record<ChartPeriod, (supabase: SupabaseClient, userId: string, context: TimeContext) => Promise<{ label: string; minutes: number }[]>> = {
+  days: async (supabase, userId, context) => {
+    const today = parseDateKey(context.localDate) ?? new Date()
     const start = new Date(today)
-    start.setDate(today.getDate() - 4)
+    start.setUTCDate(today.getUTCDate() - 4)
 
     const { data, error } = await supabase
       .from("user_daily_watch")
       .select("date, total_minutes")
       .eq("user_id", userId)
-      .gte("date", start.toISOString().split("T")[0])
+      .gte("date", formatDateKey(start))
+      .lte("date", context.localDate)
       .order("date", { ascending: true })
 
     if (error) throw new Error(error.message)
 
     return data.map(row => {
       const [year, month, day] = row.date.split("-").map(Number)
-      const date = new Date(year, month - 1, day)
+      const date = new Date(Date.UTC(year, month - 1, day))
       return {
-        label: date.toLocaleDateString("en-US", { weekday: "short" }),
+        label: date.toLocaleDateString("en-US", { weekday: "short", timeZone: "UTC" }),
         minutes: row.total_minutes ?? 0,
       }
     })
   },
 
-  months: async (supabase, userId) => {
+  months: async (supabase, userId, context) => {
+    const baseDate = parseDateKey(context.localDate) ?? new Date()
+
     return Promise.all(
       Array.from({ length: 5 }, async (_, i) => {
-        const date = new Date()
-        date.setMonth(date.getMonth() - (4 - i))
-        const year = date.getFullYear()
-        const month = date.getMonth() + 1
+        const date = new Date(baseDate)
+        date.setUTCMonth(baseDate.getUTCMonth() - (4 - i))
+        const year = date.getUTCFullYear()
+        const month = date.getUTCMonth() + 1
         const start = `${year}-${String(month).padStart(2, "0")}-01`
-        const end = new Date(year, month, 0).toISOString().split("T")[0]
+        const end = formatDateKey(new Date(Date.UTC(year, month, 0)))
 
         const { data } = await supabase
           .from("user_daily_watch")
@@ -199,17 +244,19 @@ const chartStrategies: Record<ChartPeriod, (supabase: SupabaseClient, userId: st
           .lte("date", end)
 
         return {
-          label: date.toLocaleDateString("en-US", { month: "short" }),
+          label: date.toLocaleDateString("en-US", { month: "short", timeZone: "UTC" }),
           minutes: data?.reduce((sum, r) => sum + (r.total_minutes ?? 0), 0) ?? 0,
         }
       })
     )
   },
 
-  years: async (supabase, userId) => {
+  years: async (supabase, userId, context) => {
+    const currentYear = (parseDateKey(context.localDate) ?? new Date()).getUTCFullYear()
+
     return Promise.all(
       Array.from({ length: 5 }, async (_, i) => {
-        const year = new Date().getFullYear() - (4 - i)
+        const year = currentYear - (4 - i)
 
         const { data } = await supabase
           .from("user_daily_watch")
@@ -227,7 +274,8 @@ const chartStrategies: Record<ChartPeriod, (supabase: SupabaseClient, userId: st
   },
 }
 
-export const getChartData = async (period: ChartPeriod) => {
+export const getChartData = async (period: ChartPeriod, context?: TimeContext) => {
   const { supabase, userId } = await getUserId()
-  return chartStrategies[period](supabase, userId)
+  const timeContext = getSafeTimeContext(context)
+  return chartStrategies[period](supabase, userId, timeContext)
 }
