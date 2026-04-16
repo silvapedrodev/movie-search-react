@@ -1,0 +1,10 @@
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+
+[[redirects]]
+  from = "/_next/image*"
+  to = "/api/blocked"
+  status = 403
+  conditions = {User_Agent = ["ClaudeBot", "anthropic-ai", "claudebot"]}
