@@ -1,10 +1,10 @@
 import { MediaDetails } from "@/components/media/media-details";
 import { getMediaStatus } from "@/lib/media-status";
 import { getCast, getImages, getItemByTmdbId, getRating, getRecommendedMedia, getVideosById } from "@/lib/tmdb";
-import { Metadata } from "next";
+import type { Metadata } from "next";
 
 type Props = {
-  params: { type: string; id: string }
+  params: Promise<{ type: string; id: string }>
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
