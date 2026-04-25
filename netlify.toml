@@ -8,3 +8,6 @@
   to = "/api/blocked"
   status = 403
   conditions = {User_Agent = ["ClaudeBot", "anthropic-ai", "claudebot"]}
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
