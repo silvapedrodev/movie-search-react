@@ -1,5 +1,5 @@
 // @ts-ignore
-import { Config } from "@netlify/edge-functions";
+import type { Config } from "@netlify/edge-functions";
 import agents from "../../agents.json" with { type: "json" };
 
 export default async (request: Request) => {
@@ -28,5 +28,7 @@ export default async (request: Request) => {
 
 // This edge function is executed for all requests across the site
 export const config: Config = {
-  path: "*",
+  // Disabled while using Netlify's User Agent Blocker extension.
+  // To re-enable this function globally, replace the line below with: path: "*",
+  path: "/__edge-bot-block-disabled__",
 };
