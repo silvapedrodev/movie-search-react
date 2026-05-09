@@ -1,6 +1,6 @@
 # Movie Search 🎬🔍
 
-<h3 align="center">Status: 🟡 Maintenance</h3>
+<h3 align="center">Status: 🟢 Active</h3>
 
 <p align="center">
   <img src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white" />
